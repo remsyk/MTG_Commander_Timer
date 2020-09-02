@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             R.id.start_timer -> {
                 "start timer pressed".log()
                 supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, CountdownViewPagerFragment()).addToBackStack("CountdownFragment").commit()
+                //timerList?.iterator().forEach { it.name.log() }
             }
 
             R.id.pause_timer -> {
@@ -49,6 +50,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object{
-        lateinit var timerList: ArrayList<TimerModel>
+         var timerList: ArrayList<TimerModel> = arrayListOf()
     }
 }

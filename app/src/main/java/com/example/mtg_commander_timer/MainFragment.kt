@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.example.mtg_commander_timer.MainActivity.Companion.timerList
 import kotlinx.android.synthetic.main.fragment_countdown.view.*
@@ -30,9 +31,16 @@ class MainFragment : Fragment() {
     @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //TODO this is where the issue is, this causes the names fields to be reset
+        if (timerList.isNullOrEmpty()) {
+            timerList = arrayListOf(
+                TimerModel("Enter Name", 0, null, true),
+                TimerModel("Enter Name", 0, null, true)
+            )
+        } else{
+            timerList = timerList
+        }
 
-        timerList =
-            arrayListOf(TimerModel("Enter name", 0, null, true), TimerModel("name", 0, null, true))
 
         picker_player_num.maxValue = 4
         picker_player_num.minValue = timerList.size
@@ -40,7 +48,7 @@ class MainFragment : Fragment() {
         include_enter_name_1.textLayout_name.hint = timerList.get(0).name
         include_enter_name_2.textLayout_name.hint = timerList.get(1).name
 
-        if (timerList.size >2) {
+        if (timerList.size > 2) {
             include_enter_name_3.textLayout_name.hint = timerList.get(2).name
             include_enter_name_4.textLayout_name.hint = timerList.get(3).name
         }
@@ -48,33 +56,33 @@ class MainFragment : Fragment() {
         include_enter_name_1.button_timer.text = timerList.get(0).countdownTime.millisToString()
         include_enter_name_2.button_timer.text = timerList.get(1).countdownTime.millisToString()
 
-        if (timerList.size >2) {
+        if (timerList.size > 2) {
             include_enter_name_3.button_timer.text = timerList.get(2).countdownTime.millisToString()
             include_enter_name_4.button_timer.text = timerList.get(3).countdownTime.millisToString()
         }
 
 
-        include_enter_name_1.textinputeditText_name.setOnFocusChangeListener { view, b ->
-            if (!b) {
-                timerList[0].name = include_enter_name_1.textinputeditText_name.text.toString()
+
+        if(include_enter_name_1.textinputeditText_name.hasFocus()) {
+            include_enter_name_1.textinputeditText_name.doAfterTextChanged {
+                timerList[0].name = it.toString()
+                "ok so this might be it".log()
+            }
+        }
+        if(include_enter_name_2.textinputeditText_name.hasFocus()) {
+            include_enter_name_2.textinputeditText_name.doAfterTextChanged {
+                timerList[1].name = it.toString()
             }
         }
 
-        include_enter_name_2.textinputeditText_name.setOnFocusChangeListener { view, b ->
-            if (!b) {
-                timerList[1].name = include_enter_name_2.textinputeditText_name.text.toString()
+        if(include_enter_name_3.textinputeditText_name.hasFocus()) {
+            include_enter_name_3.textinputeditText_name.doAfterTextChanged {
+                timerList[2].name = it.toString()
             }
         }
-
-        include_enter_name_3.textinputeditText_name.setOnFocusChangeListener { view, b ->
-            if (!b) {
-                timerList[2].name = include_enter_name_3.textinputeditText_name.text.toString()
-            }
-        }
-
-        include_enter_name_4.textinputeditText_name.setOnFocusChangeListener { view, b ->
-            if (!b) {
-                timerList[3].name = include_enter_name_4.textinputeditText_name.text.toString()
+        if(include_enter_name_4.textinputeditText_name.hasFocus()) {
+            include_enter_name_4.textinputeditText_name.doAfterTextChanged {
+                timerList[3].name = it.toString()
             }
         }
 
