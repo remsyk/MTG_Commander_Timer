@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:id="@+id/pause_timer"
+        android:icon="@drawable/ic_pause_24px"
+        android:title="Pause"
+        app:showAsAction="ifRoom" />
+
+
+    <item android:id="@+id/start_timer"
+        android:icon="@drawable/ic_play_arrow_24px"
+        android:title="Start"
+        app:showAsAction="ifRoom" />
+
+
+</menu>
