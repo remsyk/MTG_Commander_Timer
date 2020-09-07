@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.example.mtg_commander_timer.MainActivity.Companion.timerList
 import kotlinx.android.synthetic.main.viewgroup_dialog_set_countdown.view.*
 import kotlinx.android.synthetic.main.viewgroup_timer_picker.view.*
 import java.util.concurrent.TimeUnit
@@ -65,12 +64,13 @@ class TimeChangeDialog : DialogFragment() {
 
     companion object {
         private val newInstance = TimeChangeDialog()
-        private const val TAG = "ConditionMakerDialog"
+        private const val TAG = "TimeChangeDialog"
 
         fun show(fragmentManager: FragmentManager): TimeChangeDialog {
             val dialog = newInstance
             dialog.show(fragmentManager, TAG)
             return dialog
+
         }
     }
 }
