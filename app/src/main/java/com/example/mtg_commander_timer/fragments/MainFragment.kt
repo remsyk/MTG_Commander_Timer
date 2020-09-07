@@ -210,9 +210,15 @@ class MainFragment : Fragment() {
             ).getValue = { value ->
                 textview_timer.text = value.millisToString()
                 MainActivity.firstTimeSet = true
+
                 timerList.iterator().forEach {
                     it.countdownTime = value
                 }
+
+                for(x in 0..timerList.size-1){
+                    CountDownViewModel.setPlayerTime(timerList[x].countdownTime,x)
+                }
+
 
                 include_enter_name_1.button_timer.text = value.millisToString()
                 include_enter_name_2.button_timer.text = value.millisToString()

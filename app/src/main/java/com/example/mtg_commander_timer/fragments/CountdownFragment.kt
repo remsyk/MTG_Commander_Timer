@@ -6,23 +6,20 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_countdown.*
 import kotlinx.android.synthetic.main.viewgroup_add_minus_chips.view.*
 import androidx.lifecycle.Observer
-import com.example.mtg_commander_timer.CountDownViewModel
+import com.example.mtg_commander_timer.*
 import com.example.mtg_commander_timer.MainActivity.Companion.currentFragNum
-import com.example.mtg_commander_timer.R
-import com.example.mtg_commander_timer.TimerModel
 import com.example.mtg_commander_timer.dialogs.BattleDialog
 import com.example.mtg_commander_timer.dialogs.DiedDialog
-import com.example.mtg_commander_timer.millisToString
 
 
 class CountdownFragment : Fragment() {
 
     var fragmentPos: Int = 0
-    lateinit var timer: CountDownTimer
     var pressing: Boolean = true
 
     override fun onResume() {
@@ -32,10 +29,6 @@ class CountdownFragment : Fragment() {
         arguments?.getInt("FRG_POSITION")?.let {
             fragmentPos = it
         }
-
-
-        /*CountDownViewModel.setTimer(fragmentPos)
-        CountDownViewModel.startTimer()*/
 
     }
 
@@ -52,30 +45,38 @@ class CountdownFragment : Fragment() {
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
                 if (textview_name != null) {
-                    textview_name.text = it[fragmentPos].name
-                    textview_countdown.text = it[fragmentPos].countdownTime.millisToString()
+                    try {
+                        currentFragNum.log()
+                        textview_name.text = it[currentFragNum].name
+                        textview_countdown.text = it[currentFragNum].countdownTime.millisToString()
+                    }catch (e: IndexOutOfBoundsException){
+                        Toast.makeText(requireContext(),"Player Died", Toast.LENGTH_SHORT).show()
+
+                    }
+
+
                 }
             })
 
 
         include_chip_groups.chip_add_time.setOnClickListener {
-            CountDownViewModel.addMinute(fragmentPos)
+            CountDownViewModel.addMinute(currentFragNum)
 
 
             Handler().postDelayed({
-                CountDownViewModel.setTimer(fragmentPos)
+                CountDownViewModel.setTimer(currentFragNum)
                 CountDownViewModel.startTimer()
             }, 800)
         }
 
         include_chip_groups.chip_minus_timer.setOnClickListener {
-            CountDownViewModel.removeMinute(fragmentPos)
+            CountDownViewModel.removeMinute(currentFragNum)
             if (pressing) {
                 CountDownViewModel.stopTimer()
 
                 pressing = false
                 Handler().postDelayed({
-                    CountDownViewModel.setTimer(fragmentPos)
+                    CountDownViewModel.setTimer(currentFragNum)
                     CountDownViewModel.startTimer()
                     pressing = true
                 }, 1000)
@@ -87,7 +88,8 @@ class CountdownFragment : Fragment() {
         button_died.setOnClickListener {
             DiedDialog.show(requireFragmentManager()).getValue = {
                 if (it) {
-                    CountDownViewModel.removeTimer(fragmentPos)
+                    CountDownViewModel.stopTimer()
+                    CountDownViewModel.removeTimer(currentFragNum)
                 }
             }
         }
@@ -96,7 +98,7 @@ class CountdownFragment : Fragment() {
             CountDownViewModel.stopTimer()
             BattleDialog.show(requireFragmentManager()).getValue = {
                 if (it) {
-                    CountDownViewModel.setTimer(fragmentPos)
+                    CountDownViewModel.setTimer(currentFragNum)
                     CountDownViewModel.startTimer()
                     pressing = true
                 }

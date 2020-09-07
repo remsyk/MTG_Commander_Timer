@@ -25,6 +25,11 @@ object CountDownViewModel : ViewModel() {
         timerList.postValue(timerList.value)
     }
 
+    fun setPlayerTime(time:Long, position: Int){
+        timerList.value!![position].countdownTime = time
+        timerList.postValue(timerList.value)
+    }
+
     fun addTimer(timer: TimerModel) {
         timerList.value!!.add(timer)
         timerList.postValue(timerList.value)

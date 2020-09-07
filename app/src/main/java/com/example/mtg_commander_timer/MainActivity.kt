@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
+
         supportFragmentManager.beginTransaction().replace(R.id.framelayout_main,
             MainFragment()
         )
@@ -60,7 +61,6 @@ class MainActivity : AppCompatActivity() {
                         if (pressing) {
                             pressing = false
                             Handler().postDelayed({
-                                currentFragNum.log()
                                 CountDownViewModel.setTimer(currentFragNum)
                                 CountDownViewModel.startTimer()
                                 pressing = true
@@ -86,6 +86,8 @@ class MainActivity : AppCompatActivity() {
         var currentFragNum = 0
         var firstTimeSet = false
         var battleTime: Long =  60000
+        var removeFrag: Boolean = false
     }
+
 
 }

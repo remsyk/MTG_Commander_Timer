@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
-import com.example.mtg_commander_timer.CountDownViewModel
-import com.example.mtg_commander_timer.MainActivity
-import com.example.mtg_commander_timer.R
+import com.example.mtg_commander_timer.*
 
 /**
  * The number of pages (wizard steps) to show in this demo.
@@ -37,6 +36,11 @@ class CountdownViewPagerFragment : Fragment() {
             )
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionPagerAdapter
+
+        CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
+            demoCollectionPagerAdapter.updateData(it)
+            })
+
 
 
         viewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -76,6 +80,12 @@ class CountdownViewPagerFragment : Fragment() {
 
                 MainActivity.currentFragNum = position
 
+
+                if(MainActivity.removeFrag){
+                    CountDownViewModel.removeTimer(position-1)
+
+                }
+
                 CountDownViewModel.stopTimer()
                 CountDownViewModel.setTimer(
                     position
@@ -90,7 +100,9 @@ class CountdownViewPagerFragment : Fragment() {
 // and NOT a FragmentPagerAdapter.
 class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
-    override fun getCount(): Int = CountDownViewModel.getTimeList().value!!.size
+    var data = CountDownViewModel.getTimeList().value!!
+
+    override fun getCount(): Int = data.size
 
     override fun getItem(i: Int): Fragment {
         val fragment =
@@ -100,6 +112,12 @@ class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapte
             putInt("FRG_POSITION", i)
         }
         return fragment
+    }
+
+    fun updateData(newData: MutableList<TimerModel>){
+        data = newData
+        notifyDataSetChanged()
+
     }
 
     override fun getPageTitle(position: Int): CharSequence {
