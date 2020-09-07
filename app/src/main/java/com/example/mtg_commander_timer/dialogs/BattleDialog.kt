@@ -2,6 +2,7 @@ package com.example.mtg_commander_timer.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -39,11 +40,15 @@ class BattleDialog : DialogFragment() {
 
         }
 
-        return AlertDialog.Builder(requireContext()).setTitle("Battle!").setNegativeButton("Done") { dialog, which ->
-            getValue?.let { it(true)
-                timer.cancel()
-            }
-        }.setView(rootView).create()
+        return AlertDialog.Builder(requireContext()).setTitle("Battle!").setView(rootView).create()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        getValue?.let { it(true)
+            timer.cancel()
+        }
+
     }
 
 

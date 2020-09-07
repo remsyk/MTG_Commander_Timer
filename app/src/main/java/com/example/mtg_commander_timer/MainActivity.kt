@@ -53,17 +53,18 @@ class MainActivity : AppCompatActivity() {
                                 CountDownViewModel.setTimer(0)
                                 CountDownViewModel.startTimer()
                                 pressing = true
-                            }, 1000)
+                            }, 800)
                         }
 
                     } else {
                         if (pressing) {
                             pressing = false
                             Handler().postDelayed({
+                                currentFragNum.log()
                                 CountDownViewModel.setTimer(currentFragNum)
                                 CountDownViewModel.startTimer()
                                 pressing = true
-                            }, 1000)
+                            }, 800)
                         }
                     }
                 }else{
@@ -73,7 +74,8 @@ class MainActivity : AppCompatActivity() {
 
             R.id.pause_timer -> {
                CountDownViewModel.stopTimer()
-                Toast.makeText(this,"Paused", Toast.LENGTH_LONG).show()
+                pressing = true
+                Toast.makeText(this,"Paused", Toast.LENGTH_SHORT).show()
 
             }
         }

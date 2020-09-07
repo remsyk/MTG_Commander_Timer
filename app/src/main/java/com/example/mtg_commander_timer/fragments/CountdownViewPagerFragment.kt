@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.mtg_commander_timer.CountDownViewModel
+import com.example.mtg_commander_timer.MainActivity
 import com.example.mtg_commander_timer.R
 
 /**
@@ -72,6 +73,9 @@ class CountdownViewPagerFragment : Fragment() {
             }
 
             override fun onPageSelected(position: Int) {
+
+                MainActivity.currentFragNum = position
+
                 CountDownViewModel.stopTimer()
                 CountDownViewModel.setTimer(
                     position

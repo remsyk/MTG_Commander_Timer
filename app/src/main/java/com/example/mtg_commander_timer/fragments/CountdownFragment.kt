@@ -31,7 +31,6 @@ class CountdownFragment : Fragment() {
 
         arguments?.getInt("FRG_POSITION")?.let {
             fragmentPos = it
-            currentFragNum = it
         }
 
 
