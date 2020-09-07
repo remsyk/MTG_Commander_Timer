@@ -1,4 +1,4 @@
-package com.example.mtg_commander_timer
+package com.example.mtg_commander_timer.fragments
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -6,14 +6,17 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_countdown.*
 import kotlinx.android.synthetic.main.viewgroup_add_minus_chips.view.*
-import java.util.*
 import androidx.lifecycle.Observer
+import com.example.mtg_commander_timer.CountDownViewModel
 import com.example.mtg_commander_timer.MainActivity.Companion.currentFragNum
-import kotlin.properties.Delegates
+import com.example.mtg_commander_timer.R
+import com.example.mtg_commander_timer.TimerModel
+import com.example.mtg_commander_timer.dialogs.BattleDialog
+import com.example.mtg_commander_timer.dialogs.DiedDialog
+import com.example.mtg_commander_timer.millisToString
 
 
 class CountdownFragment : Fragment() {
@@ -38,11 +41,7 @@ class CountdownFragment : Fragment() {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_countdown, container, false)
         return root
     }
@@ -53,11 +52,11 @@ class CountdownFragment : Fragment() {
 
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
-            if (textview_name != null) {
-                textview_name.text = it[fragmentPos].name
-                textview_countdown.text = it[fragmentPos].countdownTime.millisToString()
-            }
-        })
+                if (textview_name != null) {
+                    textview_name.text = it[fragmentPos].name
+                    textview_countdown.text = it[fragmentPos].countdownTime.millisToString()
+                }
+            })
 
 
         include_chip_groups.chip_add_time.setOnClickListener {
@@ -72,8 +71,7 @@ class CountdownFragment : Fragment() {
 
         include_chip_groups.chip_minus_timer.setOnClickListener {
             CountDownViewModel.removeMinute(fragmentPos)
-            if(pressing){
-                "pressing set to false".log()
+            if (pressing) {
                 CountDownViewModel.stopTimer()
 
                 pressing = false
@@ -81,7 +79,6 @@ class CountdownFragment : Fragment() {
                     CountDownViewModel.setTimer(fragmentPos)
                     CountDownViewModel.startTimer()
                     pressing = true
-                    "pressing back to true".log()
                 }, 1000)
             }
 
@@ -89,8 +86,22 @@ class CountdownFragment : Fragment() {
 
 
         button_died.setOnClickListener {
-            CountDownViewModel.removeTimer(fragmentPos)
+            DiedDialog.show(requireFragmentManager()).getValue = {
+                if (it) {
+                    CountDownViewModel.removeTimer(fragmentPos)
+                }
+            }
+        }
 
+        button_battle.setOnClickListener {
+            CountDownViewModel.stopTimer()
+            BattleDialog.show(requireFragmentManager()).getValue = {
+                if (it) {
+                    CountDownViewModel.setTimer(fragmentPos)
+                    CountDownViewModel.startTimer()
+                    pressing = true
+                }
+            }
         }
 
     }

@@ -1,7 +1,6 @@
-package com.example.mtg_commander_timer
+package com.example.mtg_commander_timer.fragments
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.example.mtg_commander_timer.CountDownViewModel
+import com.example.mtg_commander_timer.R
 
 /**
  * The number of pages (wizard steps) to show in this demo.
@@ -29,7 +30,10 @@ class CountdownViewPagerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        demoCollectionPagerAdapter = DemoCollectionPagerAdapter(childFragmentManager)
+        demoCollectionPagerAdapter =
+            DemoCollectionPagerAdapter(
+                childFragmentManager
+            )
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionPagerAdapter
 
@@ -69,7 +73,9 @@ class CountdownViewPagerFragment : Fragment() {
 
             override fun onPageSelected(position: Int) {
                 CountDownViewModel.stopTimer()
-                CountDownViewModel.setTimer(position)
+                CountDownViewModel.setTimer(
+                    position
+                )
                 CountDownViewModel.startTimer()
             }
         })
@@ -83,7 +89,8 @@ class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapte
     override fun getCount(): Int = CountDownViewModel.getTimeList().value!!.size
 
     override fun getItem(i: Int): Fragment {
-        val fragment = CountdownFragment()
+        val fragment =
+            CountdownFragment()
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
             putInt("FRG_POSITION", i)

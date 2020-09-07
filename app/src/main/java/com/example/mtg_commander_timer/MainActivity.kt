@@ -7,7 +7,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
-import kotlin.properties.Delegates
+import com.example.mtg_commander_timer.fragments.CountdownViewPagerFragment
+import com.example.mtg_commander_timer.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
     var pressing: Boolean = true
@@ -18,7 +19,9 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, MainFragment())
+        supportFragmentManager.beginTransaction().replace(R.id.framelayout_main,
+            MainFragment()
+        )
             .addToBackStack("MainFragment").commit()
     }
 
@@ -40,29 +43,31 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.start_timer -> {
-                if(supportFragmentManager.backStackEntryCount==1) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.framelayout_main, CountdownViewPagerFragment())
-                        .addToBackStack("CountdownFragment").commit()
+                if (firstTimeSet) {
+                    if (supportFragmentManager.backStackEntryCount == 1) {
+                        supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, CountdownViewPagerFragment()).addToBackStack("CountdownFragment").commit()
 
-                    if(pressing){
-                        pressing = false
-                        Handler().postDelayed({
-                            CountDownViewModel.setTimer(0)
-                            CountDownViewModel.startTimer()
-                            pressing = true
-                        }, 1000)
-                    }
+                        if (pressing) {
+                            pressing = false
+                            Handler().postDelayed({
+                                CountDownViewModel.setTimer(0)
+                                CountDownViewModel.startTimer()
+                                pressing = true
+                            }, 1000)
+                        }
 
-                }else {
-                    if(pressing){
-                        pressing = false
-                        Handler().postDelayed({
-                            CountDownViewModel.setTimer(currentFragNum)
-                            CountDownViewModel.startTimer()
-                            pressing = true
-                        }, 1000)
+                    } else {
+                        if (pressing) {
+                            pressing = false
+                            Handler().postDelayed({
+                                CountDownViewModel.setTimer(currentFragNum)
+                                CountDownViewModel.startTimer()
+                                pressing = true
+                            }, 1000)
+                        }
                     }
+                }else{
+                    Toast.makeText(this,"Set time to start", Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -77,6 +82,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var currentFragNum = 0
+        var firstTimeSet = false
+        var battleTime: Long =  60000
     }
 
 }

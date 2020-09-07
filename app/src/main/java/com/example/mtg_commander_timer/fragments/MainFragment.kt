@@ -1,21 +1,16 @@
-package com.example.mtg_commander_timer
+package com.example.mtg_commander_timer.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fragment_countdown.*
-import kotlinx.android.synthetic.main.fragment_countdown.view.*
+import com.example.mtg_commander_timer.*
+import com.example.mtg_commander_timer.dialogs.TimeChangeDialog
 import kotlinx.android.synthetic.main.fragment_main_view.*
 import kotlinx.android.synthetic.main.viewgroup_enter_name.view.*
-import kotlin.concurrent.timer
 
 
 class MainFragment : Fragment() {
@@ -28,7 +23,8 @@ class MainFragment : Fragment() {
     //TODO use this for the bot trader
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
+        CountDownViewModel.getTimeList()
+            .observe(activity!!, Observer<MutableList<TimerModel>> {
             timerList = it
         })
 
@@ -75,7 +71,10 @@ class MainFragment : Fragment() {
         include_enter_name_1.textinputeditText_name.setOnFocusChangeListener { view, b ->
             if(b){
                 include_enter_name_1.textinputeditText_name.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), 0)
+                    CountDownViewModel.setPlayerName(
+                        it.toString(),
+                        0
+                    )
                 }
             }
         }
@@ -84,7 +83,10 @@ class MainFragment : Fragment() {
         include_enter_name_2.textinputeditText_name.setOnFocusChangeListener { view, b ->
             if(b){
                 include_enter_name_2.textinputeditText_name.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), 1)
+                    CountDownViewModel.setPlayerName(
+                        it.toString(),
+                        1
+                    )
                 }
             }
         }
@@ -92,7 +94,10 @@ class MainFragment : Fragment() {
         include_enter_name_3.textinputeditText_name.setOnFocusChangeListener { view, b ->
             if(b){
                 include_enter_name_3.textinputeditText_name.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), 2)
+                    CountDownViewModel.setPlayerName(
+                        it.toString(),
+                        2
+                    )
                 }
             }
         }
@@ -100,7 +105,10 @@ class MainFragment : Fragment() {
         include_enter_name_4.textinputeditText_name.setOnFocusChangeListener { view, b ->
             if(b){
                 include_enter_name_4.textinputeditText_name.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), 3)
+                    CountDownViewModel.setPlayerName(
+                        it.toString(),
+                        3
+                    )
                 }
             }
         }
@@ -116,7 +124,14 @@ class MainFragment : Fragment() {
                     include_enter_name_3.visibility = View.VISIBLE
                     include_enter_name_4.visibility = View.GONE
                     if (timerList.size <= 2) {
-                        timerList.add(TimerModel("Enter Name", 0, null, true))
+                        timerList.add(
+                            TimerModel(
+                                "Enter Name",
+                                0,
+                                null,
+                                true
+                            )
+                        )
                     }
                     if (timerList.size == 4) {
 
@@ -129,7 +144,14 @@ class MainFragment : Fragment() {
                     include_enter_name_3.visibility = View.VISIBLE
                     include_enter_name_4.visibility = View.VISIBLE
                     if (timerList.size <= 3) {
-                        timerList.add(TimerModel("Enter Name", 0, null, true))
+                        timerList.add(
+                            TimerModel(
+                                "Enter Name",
+                                0,
+                                null,
+                                true
+                            )
+                        )
 
                     }
                 }
@@ -147,37 +169,47 @@ class MainFragment : Fragment() {
         }
 
         include_enter_name_1.button_timer.setOnClickListener {
-            TimeChangeDialog.show(requireFragmentManager()).getValue = { value ->
+            TimeChangeDialog.show(
+                requireFragmentManager()
+            ).getValue = { value ->
                 include_enter_name_1.button_timer.text = value.millisToString()
                 timerList[0].countdownTime = value
             }
         }
 
         include_enter_name_2.button_timer.setOnClickListener {
-            TimeChangeDialog.show(requireFragmentManager()).getValue = { value ->
+            TimeChangeDialog.show(
+                requireFragmentManager()
+            ).getValue = { value ->
                 include_enter_name_2.button_timer.text = value.millisToString()
                 timerList[1].countdownTime = value
             }
         }
 
         include_enter_name_3.button_timer.setOnClickListener {
-            TimeChangeDialog.show(requireFragmentManager()).getValue = { value ->
+            TimeChangeDialog.show(
+                requireFragmentManager()
+            ).getValue = { value ->
                 include_enter_name_3.button_timer.text = value.millisToString()
                 timerList[2].countdownTime = value
             }
         }
 
         include_enter_name_4.button_timer.setOnClickListener {
-            TimeChangeDialog.show(requireFragmentManager()).getValue = { value ->
+            TimeChangeDialog.show(
+                requireFragmentManager()
+            ).getValue = { value ->
                 include_enter_name_4.button_timer.text = value.millisToString()
                 timerList[3].countdownTime = value
             }
         }
 
         textview_timer.setOnClickListener {
-            TimeChangeDialog.show(requireFragmentManager()).getValue = { value ->
+            TimeChangeDialog.show(
+                requireFragmentManager()
+            ).getValue = { value ->
                 textview_timer.text = value.millisToString()
-
+                MainActivity.firstTimeSet = true
                 timerList.iterator().forEach {
                     it.countdownTime = value
                 }
@@ -186,6 +218,17 @@ class MainFragment : Fragment() {
                 include_enter_name_2.button_timer.text = value.millisToString()
                 include_enter_name_3.button_timer.text = value.millisToString()
                 include_enter_name_4.button_timer.text = value.millisToString()
+
+            }
+        }
+
+        textview_battle_time.text = MainActivity.battleTime.millisToMinString()
+        textview_battle_time.setOnClickListener {
+            TimeChangeDialog.show(
+                requireFragmentManager()
+            ).getValue = { value ->
+                textview_battle_time.text = value.millisToMinString()
+                MainActivity.battleTime = value
 
             }
         }
