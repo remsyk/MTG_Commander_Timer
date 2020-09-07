@@ -124,7 +124,7 @@ class MainFragment : Fragment() {
                     include_enter_name_3.visibility = View.VISIBLE
                     include_enter_name_4.visibility = View.GONE
                     if (timerList.size <= 2) {
-                        timerList.add(
+                        CountDownViewModel.addTimer(
                             TimerModel(
                                 "Enter Name",
                                 0,
@@ -144,7 +144,7 @@ class MainFragment : Fragment() {
                     include_enter_name_3.visibility = View.VISIBLE
                     include_enter_name_4.visibility = View.VISIBLE
                     if (timerList.size <= 3) {
-                        timerList.add(
+                        CountDownViewModel.addTimer(
                             TimerModel(
                                 "Enter Name",
                                 0,

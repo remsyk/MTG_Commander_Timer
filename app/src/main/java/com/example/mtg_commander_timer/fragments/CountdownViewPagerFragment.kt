@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mtg_commander_timer.*
 
 /**
@@ -30,10 +32,7 @@ class CountdownViewPagerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        demoCollectionPagerAdapter =
-            DemoCollectionPagerAdapter(
-                childFragmentManager
-            )
+        demoCollectionPagerAdapter = DemoCollectionPagerAdapter(childFragmentManager)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionPagerAdapter
 
@@ -49,7 +48,6 @@ class CountdownViewPagerFragment : Fragment() {
             var mIsEndOfCycle = false
 
             override fun onPageScrollStateChanged(state: Int) {
-
                 val pageCount = viewPager?.adapter?.count
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     if (mPreviousPosition == currentPage && !mIsEndOfCycle) {
@@ -62,7 +60,6 @@ class CountdownViewPagerFragment : Fragment() {
                     } else {
                         mIsEndOfCycle = false;
                     }
-
                     mPreviousPosition = currentPage;
                 }
             }
@@ -77,6 +74,7 @@ class CountdownViewPagerFragment : Fragment() {
             }
 
             override fun onPageSelected(position: Int) {
+                currentPage = position
 
                 MainActivity.currentFragNum = position
 
@@ -124,6 +122,7 @@ class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapte
         return "OBJECT ${(position + 1)}"
     }
 }
+
 
 
 
