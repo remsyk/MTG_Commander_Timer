@@ -1,7 +1,6 @@
 package com.example.mtg_commander_timer.fragments
 
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
@@ -44,64 +43,80 @@ class CountdownFragment : Fragment() {
 
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
-                if (textview_name != null) {
-                    try {
-                        currentFragNum.log()
-                        textview_name.text = it[currentFragNum].name
-                        textview_countdown.text = it[currentFragNum].countdownTime.millisToString()
-                    }catch (e: IndexOutOfBoundsException){
-                        Toast.makeText(requireContext(),"Player Died", Toast.LENGTH_SHORT).show()
-
-                    }
-
+            if (textview_name != null) {
+                try {
+                    textview_name.text = it[currentFragNum].name
+                    textview_countdown.text = it[currentFragNum].countdownTime.millisToString()
+                } catch (e: IndexOutOfBoundsException) {
+                    Toast.makeText(requireContext(), "Player Died", Toast.LENGTH_SHORT).show()
 
                 }
-            })
+
+
+            }
+        })
 
 
         include_chip_groups.chip_add_time.setOnClickListener {
             CountDownViewModel.addMinute(currentFragNum)
 
+            if (pressing) {
+                CountDownViewModel.stopTimer()
+                pressing = false
 
-            Handler().postDelayed({
-                CountDownViewModel.setTimer(currentFragNum)
-                CountDownViewModel.startTimer()
-            }, 800)
+                Handler().postDelayed({
+                    CountDownViewModel.setTimer(currentFragNum)
+                    CountDownViewModel.startTimer()
+                    pressing = true
+                }, 1700)
+            }
         }
 
         include_chip_groups.chip_minus_timer.setOnClickListener {
             CountDownViewModel.removeMinute(currentFragNum)
             if (pressing) {
                 CountDownViewModel.stopTimer()
-
                 pressing = false
+
                 Handler().postDelayed({
                     CountDownViewModel.setTimer(currentFragNum)
                     CountDownViewModel.startTimer()
                     pressing = true
-                }, 1000)
+                }, 1700)
             }
 
         }
 
 
         button_died.setOnClickListener {
-            DiedDialog.show(requireFragmentManager()).getValue = {
-                if (it) {
-                    CountDownViewModel.stopTimer()
-                    CountDownViewModel.removeTimer(currentFragNum)
+            if (pressing) {
+                pressing = false
+                DiedDialog.show(requireFragmentManager()).getValue = {
+                    if (it) {
+                        CountDownViewModel.stopTimer()
+                        CountDownViewModel.removePlayer(currentFragNum)
+                    }
                 }
+                Handler().postDelayed({
+                    pressing = true
+                }, 1000)
             }
         }
 
         button_battle.setOnClickListener {
             CountDownViewModel.stopTimer()
-            BattleDialog.show(requireFragmentManager()).getValue = {
-                if (it) {
-                    CountDownViewModel.setTimer(currentFragNum)
-                    CountDownViewModel.startTimer()
-                    pressing = true
+            if (pressing) {
+                pressing = false
+                BattleDialog.show(requireFragmentManager()).getValue = {
+                    if (it) {
+                        CountDownViewModel.setTimer(currentFragNum)
+                        CountDownViewModel.startTimer()
+                        pressing = true
+                    }
                 }
+                Handler().postDelayed({
+                    pressing = true
+                }, 1000)
             }
         }
 

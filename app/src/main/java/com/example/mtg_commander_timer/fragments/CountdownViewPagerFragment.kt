@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.mtg_commander_timer.*
 
 /**
@@ -80,7 +78,7 @@ class CountdownViewPagerFragment : Fragment() {
 
 
                 if(MainActivity.removeFrag){
-                    CountDownViewModel.removeTimer(position-1)
+                    CountDownViewModel.removePlayer(position-1)
 
                 }
 

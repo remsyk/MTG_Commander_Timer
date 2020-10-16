@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.mtg_commander_timer.fragments.CountdownViewPagerFragment
 import com.example.mtg_commander_timer.fragments.MainFragment
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
     var pressing: Boolean = true
@@ -20,17 +21,14 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
 
-        supportFragmentManager.beginTransaction().replace(R.id.framelayout_main,
-            MainFragment()
-        )
-            .addToBackStack("MainFragment").commit()
+        supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, MainFragment()).addToBackStack("MainFragment").commit()
     }
 
     override fun onBackPressed() {
         CountDownViewModel.stopTimer()
-        if(supportFragmentManager.backStackEntryCount ==1){
+        if (supportFragmentManager.backStackEntryCount == 1) {
             finish()
-        }else {
+        } else {
             supportFragmentManager.popBackStack()
         }
     }
@@ -67,16 +65,23 @@ class MainActivity : AppCompatActivity() {
                             }, 800)
                         }
                     }
-                }else{
-                    Toast.makeText(this,"Set time to start", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "Set time to start", Toast.LENGTH_LONG).show()
                 }
             }
 
             R.id.pause_timer -> {
-               CountDownViewModel.stopTimer()
-                pressing = true
-                Toast.makeText(this,"Paused", Toast.LENGTH_SHORT).show()
+                if (pressing) {
 
+                    pressing = false
+
+                    CountDownViewModel.stopTimer()
+                    Toast.makeText(this, "Paused", Toast.LENGTH_SHORT).show()
+
+                    Handler().postDelayed({
+                        pressing = true
+                    }, 800)
+                }
             }
         }
         return true
@@ -85,9 +90,9 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var currentFragNum = 0
         var firstTimeSet = false
-        var battleTime: Long =  60000
+        var battleTime: Long = 60000
         var removeFrag: Boolean = false
+        var mainTime: Long = 0
+
     }
-
-
 }
