@@ -40,6 +40,12 @@ object CountDownViewModel : ViewModel() {
         timerList.postValue(timerList.value)
     }
 
+    @ExperimentalStdlibApi
+    fun removeLastPlayer(){
+        timerList.value!!.removeLast()
+        timerList.postValue(timerList.value)
+    }
+
     fun removeRangePlayer(position: Int) {
         timerList.value = timerList.value!!.subList(0, position)
         timerList.postValue(timerList.value)
