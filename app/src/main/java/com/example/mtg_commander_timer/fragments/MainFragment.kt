@@ -32,19 +32,11 @@ import kotlinx.android.synthetic.main.fragment_main_view.*
 
 class MainFragment : Fragment() {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_main_view, container, false)
-        return root
+        return inflater.inflate(R.layout.fragment_main_view, container, false)
     }
 
-
-
-    @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,7 +47,7 @@ class MainFragment : Fragment() {
 
         recyclerView_player_list.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         val playersAdapter = PlayerListAdapterRecyclerView(requireActivity())
-        recyclerView_top_items.adapter = adapter
+        recyclerView_player_list.adapter = playersAdapter
 
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {

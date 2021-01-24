@@ -25,8 +25,6 @@ class PlayerListAdapterRecyclerView(private val context: FragmentActivity) : Rec
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(holder){
 
-                textView.hint = "Enter Name"
-
             }
 
     }
@@ -41,6 +39,5 @@ class PlayerListAdapterRecyclerView(private val context: FragmentActivity) : Rec
         val layout = view.textLayout_player_name
         val textView = view.textinputeditText_player_name
     }
-
 
 }
