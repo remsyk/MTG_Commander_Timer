@@ -7,16 +7,19 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mtg_commander_timer.CountDownViewModel
-import com.example.mtg_commander_timer.R
-import com.example.mtg_commander_timer.TimerModel
+import com.example.mtg_commander_timer.*
+import com.example.mtg_commander_timer.dialogs.TimeChangeBattleDialog
 import com.example.mtg_commander_timer.dialogs.TimeChangeDialog
-import com.example.mtg_commander_timer.log
+import com.example.mtg_commander_timer.models.CountDownViewModel
+import com.example.mtg_commander_timer.models.TimerModel
 import kotlinx.android.synthetic.main.cardview_top_item.view.*
 
 class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adapter<TopItemsAdapter.ViewHolder>() {
 
     private lateinit var metricList: MutableList<TimerModel>
+    private var playerCount = 2
+
+    private var soundOn = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.cardview_top_item, parent, false))
@@ -38,7 +41,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
                     card.setOnClickListener {
                         TimeChangeDialog.show(context.supportFragmentManager).getValue = { value ->
-                            value.log()
+                            body.text = value.millisToString()
                         }
                     }
 
@@ -46,30 +49,54 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
                 1 -> {
                     title.text = "Battle Time"
-                    body.text = "1:00"
+                    body.text = "00:00"
+
+                    card.setOnClickListener {
+                        TimeChangeBattleDialog.show(context.supportFragmentManager).getValue = { value ->
+
+                            body.text = value.millisToMinString()
+                        }
+                    }
                 }
 
                 2 -> {
+                    title.text = "Sound"
+                    body.text = "On"
+
+                    card.setOnClickListener {
+                        if (soundOn) {
+                            body.text = "Off"
+                            soundOn = false
+                        } else {
+                            body.text = "On"
+                            soundOn = true
+                        }
+                    }
+                }
+
+                3 -> {
+
+
                     title.text = "Players"
                     body.text = metricList.size.toString()
                     addPlayer.visibility = View.VISIBLE
                     removePlayer.visibility = View.VISIBLE
 
                     addPlayer.setOnClickListener {
-                        "add player pressed".log()
-                        CountDownViewModel.addPlayer(TimerModel("Enter Name", 0, null, true))
-
+                        if(playerCount<4) {
+                            playerCount++
+                            CountDownViewModel.addPlayer(TimerModel("Enter Name", 0, null, true))
+                        }
 
                     }
 
                     removePlayer.setOnClickListener {
-                        CountDownViewModel.removeLastPlayer()
-                    }
-                }
+                        if (playerCount > 2) {
+                            CountDownViewModel.removeLastPlayer()
+                            playerCount--
+                        }
 
-                3 -> {
-                    title.text = "Sound"
-                    body.text = "On"
+                    }
                 }
 
                 else -> {

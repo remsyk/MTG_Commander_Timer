@@ -8,7 +8,7 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.example.mtg_commander_timer.MainActivity
+import com.example.mtg_commander_timer.activities.MainActivity
 import com.example.mtg_commander_timer.R
 import com.example.mtg_commander_timer.millisToMinString
 import kotlinx.android.synthetic.main.viewgroup_battle_dialog.view.*

@@ -11,9 +11,12 @@ import kotlinx.android.synthetic.main.fragment_countdown.*
 import kotlinx.android.synthetic.main.viewgroup_add_minus_chips.view.*
 import androidx.lifecycle.Observer
 import com.example.mtg_commander_timer.*
-import com.example.mtg_commander_timer.MainActivity.Companion.currentFragNum
+import com.example.mtg_commander_timer.activities.MainActivity
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.currentFragNum
 import com.example.mtg_commander_timer.dialogs.BattleDialog
 import com.example.mtg_commander_timer.dialogs.DiedDialog
+import com.example.mtg_commander_timer.models.CountDownViewModel
+import com.example.mtg_commander_timer.models.TimerModel
 
 
 class CountdownFragment : Fragment() {
@@ -34,12 +37,17 @@ class CountdownFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_countdown, container, false)
+        MainActivity.pauseIconEnabled(true)
+
         return root
+
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+       // MainActivity.pauseIconEnabled(true)
 
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {

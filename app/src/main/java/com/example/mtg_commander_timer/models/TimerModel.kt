@@ -1,4 +1,4 @@
-package com.example.mtg_commander_timer
+package com.example.mtg_commander_timer.models
 
 import android.graphics.Color
 

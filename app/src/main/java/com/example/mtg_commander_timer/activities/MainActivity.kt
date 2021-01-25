@@ -1,4 +1,4 @@
-package com.example.mtg_commander_timer
+package com.example.mtg_commander_timer.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,9 +7,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import com.example.mtg_commander_timer.R
 import com.example.mtg_commander_timer.fragments.CountdownViewPagerFragment
 import com.example.mtg_commander_timer.fragments.MainFragment
-import kotlin.properties.Delegates
+import com.example.mtg_commander_timer.models.CountDownViewModel
 
 class MainActivity : AppCompatActivity() {
     var pressing: Boolean = true
@@ -19,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportActionBar!!.setDisplayShowTitleEnabled(false)
-
 
         supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, MainFragment()).addToBackStack("MainFragment").commit()
     }
@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.actionbar_menu_start_pause, menu)
+        mainMenu = menu!!
+        MainActivity.pauseIconEnabled(false)
         return true
     }
 
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.pause_timer -> {
+
                 if (pressing) {
 
                     pressing = false
@@ -87,12 +90,24 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+
     companion object {
         var currentFragNum = 0
         var firstTimeSet = false
         var battleTime: Long = 60000
         var removeFrag: Boolean = false
         var mainTime: Long = 0
+        lateinit var mainMenu: Menu
 
+
+        fun pauseIconEnabled(pauseEnabled: Boolean) {
+            if (::mainMenu.isInitialized) {
+                if (pauseEnabled) {
+                    mainMenu.findItem(R.id.pause_timer).isVisible = false
+                } else {
+                    mainMenu.findItem(R.id.pause_timer).isVisible = false
+                }
+            }
+        }
     }
 }

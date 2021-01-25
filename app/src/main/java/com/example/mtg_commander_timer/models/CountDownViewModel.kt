@@ -1,10 +1,9 @@
-package com.example.mtg_commander_timer
+package com.example.mtg_commander_timer.models
 
 import android.os.CountDownTimer
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mtg_commander_timer.log
 import java.lang.IndexOutOfBoundsException
 
 object CountDownViewModel : ViewModel() {

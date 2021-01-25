@@ -10,6 +10,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.example.mtg_commander_timer.*
+import com.example.mtg_commander_timer.activities.MainActivity
+import com.example.mtg_commander_timer.models.CountDownViewModel
+import com.example.mtg_commander_timer.models.TimerModel
 
 /**
  * The number of pages (wizard steps) to show in this demo.
