@@ -60,38 +60,41 @@ class MainFragment : Fragment() {
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
             adapter.updateData(it)
 
+/*
             when (it.size){
 
                 2->{
 
-                    textLayout_name_3.visibility = View.INVISIBLE
-                    textLayout_name_3.visibility = View.INVISIBLE
+                    textinputeditText_name_3.visibility = View.INVISIBLE
+                    textinputeditText_name_3.visibility = View.INVISIBLE
 
-                    textLayout_name_4.visibility = View.INVISIBLE
-                    textLayout_name_4.visibility = View.INVISIBLE
+                    textinputeditText_name_4.visibility = View.INVISIBLE
+                    textinputeditText_name_4.visibility = View.INVISIBLE
 
                 }
 
                 3->{
 
-                    textLayout_name_3.visibility = View.VISIBLE
-                    textLayout_name_3.visibility = View.VISIBLE
 
-                    textLayout_name_4.visibility = View.INVISIBLE
-                    textLayout_name_4.visibility = View.INVISIBLE
+                    textinputeditText_name_3.visibility = View.VISIBLE
+                    textinputeditText_name_3.visibility = View.VISIBLE
+
+                    textinputeditText_name_4.visibility = View.INVISIBLE
+                    textinputeditText_name_4.visibility = View.INVISIBLE
 
                 }
 
                 4->{
 
-                    textLayout_name_3.visibility = View.VISIBLE
-                    textLayout_name_3.visibility = View.VISIBLE
+                    textinputeditText_name_3.visibility = View.VISIBLE
+                    textinputeditText_name_3.visibility = View.VISIBLE
 
-                    textLayout_name_4.visibility = View.VISIBLE
-                    textLayout_name_4.visibility = View.VISIBLE
+                    textinputeditText_name_4.visibility = View.VISIBLE
+                    textinputeditText_name_4.visibility = View.VISIBLE
 
                 }
             }
+*/
 
 
         })

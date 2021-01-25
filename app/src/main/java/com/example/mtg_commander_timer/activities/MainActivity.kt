@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.example.mtg_commander_timer.R
 import com.example.mtg_commander_timer.fragments.CountdownViewPagerFragment
 import com.example.mtg_commander_timer.fragments.MainFragment
+import com.example.mtg_commander_timer.log
 import com.example.mtg_commander_timer.models.CountDownViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -45,6 +46,14 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.start_timer -> {
                 if (firstTimeSet) {
+
+                    CountDownViewModel.getTimeList().value!!.iterator().forEach {
+
+                        "${it.name} + ${it.countdownTime}".log()
+
+                    }
+
+
                     if (supportFragmentManager.backStackEntryCount == 1) {
                         supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, CountdownViewPagerFragment()).addToBackStack("CountdownFragment").commit()
 

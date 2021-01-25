@@ -95,7 +95,6 @@ class CountdownFragment : Fragment() {
 
         }
 
-
         button_died.setOnClickListener {
             if (pressing) {
                 pressing = false

@@ -8,6 +8,10 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mtg_commander_timer.*
+import com.example.mtg_commander_timer.activities.MainActivity
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.battleTime
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainMenu
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainTime
 import com.example.mtg_commander_timer.dialogs.TimeChangeBattleDialog
 import com.example.mtg_commander_timer.dialogs.TimeChangeDialog
 import com.example.mtg_commander_timer.models.CountDownViewModel
@@ -18,7 +22,6 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
     private lateinit var metricList: MutableList<TimerModel>
     private var playerCount = 2
-
     private var soundOn = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,23 +40,32 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
                 0 -> {
                     title.text = "Turn Time"
-                    body.text = "00:00:00"
+                    body.text = mainTime.millisToString()
 
                     card.setOnClickListener {
                         TimeChangeDialog.show(context.supportFragmentManager).getValue = { value ->
-                            body.text = value.millisToString()
+                            mainTime = value
+                            body.text = mainTime.millisToString()
+
+                            for (x in 0 until playerCount) {
+                                CountDownViewModel.setPlayerTime(mainTime, x)
+                            }
+
                         }
+
+
+                        MainActivity.firstTimeSet = true
                     }
 
                 }
 
                 1 -> {
                     title.text = "Battle Time"
-                    body.text = "00:00"
+                    body.text = battleTime.millisToMinString()
 
                     card.setOnClickListener {
                         TimeChangeBattleDialog.show(context.supportFragmentManager).getValue = { value ->
-
+                            battleTime = value
                             body.text = value.millisToMinString()
                         }
                     }
@@ -85,7 +97,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
                     addPlayer.setOnClickListener {
                         if(playerCount<4) {
                             playerCount++
-                            CountDownViewModel.addPlayer(TimerModel("Enter Name", 0, null, true))
+                        CountDownViewModel.addPlayer(TimerModel("Enter Name", mainTime, null, true))
                         }
 
                     }
