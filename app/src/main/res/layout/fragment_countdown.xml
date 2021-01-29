@@ -5,6 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="396dp"
+        android:layout_height="341dp"
+        android:background="@drawable/progressbar_circular_background"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="65"
+        android:progressDrawable="@drawable/progressbar_circular"
+        app:layout_constraintBottom_toBottomOf="@id/include_chip_groups"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textview_name"
+        app:layout_constraintVertical_bias="0.5" />
+
     <TextView
         android:id="@+id/textview_name"
         android:layout_width="wrap_content"

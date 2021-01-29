@@ -46,14 +46,6 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.start_timer -> {
                 if (firstTimeSet) {
-
-                    CountDownViewModel.getTimeList().value!!.iterator().forEach {
-
-                        "${it.name} + ${it.countdownTime}".log()
-
-                    }
-
-
                     if (supportFragmentManager.backStackEntryCount == 1) {
                         supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, CountdownViewPagerFragment()).addToBackStack("CountdownFragment").commit()
 
@@ -111,11 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         fun pauseIconEnabled(pauseEnabled: Boolean) {
             if (::mainMenu.isInitialized) {
-                if (pauseEnabled) {
-                    mainMenu.findItem(R.id.pause_timer).isVisible = false
-                } else {
-                    mainMenu.findItem(R.id.pause_timer).isVisible = false
-                }
+                mainMenu.findItem(R.id.pause_timer).isVisible = pauseEnabled
             }
         }
     }

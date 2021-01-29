@@ -3,6 +3,7 @@ package com.example.mtg_commander_timer.models
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainTime
 import com.example.mtg_commander_timer.log
 import java.lang.IndexOutOfBoundsException
 
@@ -30,19 +31,25 @@ object CountDownViewModel : ViewModel() {
     }
 
     fun addPlayer(timer: TimerModel) {
-        timerList.value!!.add(timer)
-        timerList.postValue(timerList.value)
+        if(timerList.value!!.size<4) {
+            timerList.value!!.add(timer)
+            timerList.postValue(timerList.value)
+        }
     }
 
     fun removePlayer(position: Int) {
-        timerList.value!!.removeAt(position)
-        timerList.postValue(timerList.value)
+        if(timerList.value!!.size >2) {
+            timerList.value!!.removeAt(position)
+            timerList.postValue(timerList.value)
+        }
     }
 
     @ExperimentalStdlibApi
     fun removeLastPlayer(){
-        timerList.value!!.removeLast()
-        timerList.postValue(timerList.value)
+        if(timerList.value!!.size >2) {
+            timerList.value!!.removeLast()
+            timerList.postValue(timerList.value)
+        }
     }
 
     fun removeRangePlayer(position: Int) {
@@ -105,6 +112,8 @@ object CountDownViewModel : ViewModel() {
         timer.cancel()
 
     }
+
+    fun getProgress(position: Int)= (timerList.value!![position].countdownTime)
 
 
 }

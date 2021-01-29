@@ -14,7 +14,13 @@ import com.example.mtg_commander_timer.activities.MainActivity
 import com.example.mtg_commander_timer.adapters.TopItemsAdapter
 import com.example.mtg_commander_timer.models.CountDownViewModel
 import com.example.mtg_commander_timer.models.TimerModel
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_main_view.*
+import kotlinx.android.synthetic.main.fragment_main_view.textLayout_name_4
+import kotlinx.android.synthetic.main.fragment_main_view.textinputeditText_name_3
+import kotlinx.android.synthetic.main.fragment_main_view.textinputeditText_name_4
+import kotlinx.android.synthetic.main.fragment_main_view.view.*
+import java.text.FieldPosition
 
 
 //TODO TimerChangeDialog: Fragment already added error
@@ -30,6 +36,11 @@ import kotlinx.android.synthetic.main.fragment_main_view.*
 //TODO try to make true circular swiping for count down activity view pager
 //TODO make the padding for the margins on the cards the same for the sides as the top
 //TODO Remove the app bar
+//TODO edit texts request focus
+//TODO implement dagger into project
+//TODO implement unit testing into project
+//DONE fix the wonkey shit that happens when you go back to mainFragment after starting game
+
 
 
 class MainFragment : Fragment() {
@@ -59,77 +70,52 @@ class MainFragment : Fragment() {
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
             adapter.updateData(it)
-
-/*
-            when (it.size){
-
-                2->{
-
-                    textinputeditText_name_3.visibility = View.INVISIBLE
-                    textinputeditText_name_3.visibility = View.INVISIBLE
-
-                    textinputeditText_name_4.visibility = View.INVISIBLE
-                    textinputeditText_name_4.visibility = View.INVISIBLE
-
-                }
-
-                3->{
-
-
-                    textinputeditText_name_3.visibility = View.VISIBLE
-                    textinputeditText_name_3.visibility = View.VISIBLE
-
-                    textinputeditText_name_4.visibility = View.INVISIBLE
-                    textinputeditText_name_4.visibility = View.INVISIBLE
-
-                }
-
-                4->{
-
-                    textinputeditText_name_3.visibility = View.VISIBLE
-                    textinputeditText_name_3.visibility = View.VISIBLE
-
-                    textinputeditText_name_4.visibility = View.VISIBLE
-                    textinputeditText_name_4.visibility = View.VISIBLE
-
-                }
-            }
-*/
-
-
+            updatePLayerCount(view, it.size)
         })
 
+        editTextHandler(textinputeditText_name_1,0)
+        editTextHandler(textinputeditText_name_2,1)
+        editTextHandler(textinputeditText_name_3,2)
+        editTextHandler(textinputeditText_name_4,3)
 
+    }
 
-        textinputeditText_name_1.setOnFocusChangeListener { view, b ->
+    private fun editTextHandler(editText: TextInputEditText, position: Int){
+        editText.setOnFocusChangeListener { view, b ->
             if (b) {
-                textinputeditText_name_1.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), 0)
+                editText.doAfterTextChanged {
+                    CountDownViewModel.setPlayerName(it.toString(), position)
                 }
             }
         }
 
-        textinputeditText_name_2.setOnFocusChangeListener { view, b ->
-            if (b) {
-                textinputeditText_name_2.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), 1)
+    }
+
+    private fun updatePLayerCount(view: View, size: Int) {
+
+        with(view) {
+
+            when (size) {
+
+                2 -> {
+                    textLayout_name_3.visibility = View.INVISIBLE
+                    textinputeditText_name_3.visibility = View.INVISIBLE
+                    textLayout_name_4.visibility = View.INVISIBLE
+                    textinputeditText_name_4.visibility = View.INVISIBLE
                 }
-            }
-        }
 
-        textinputeditText_name_3.setOnFocusChangeListener { view, b ->
-            if (b) {
-                textinputeditText_name_3.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), 2)
-
+                3 -> {
+                    textLayout_name_3.visibility = View.VISIBLE
+                    textinputeditText_name_3.visibility = View.VISIBLE
+                    textLayout_name_4.visibility = View.INVISIBLE
+                    textinputeditText_name_4.visibility = View.INVISIBLE
                 }
-            }
-        }
 
-        textinputeditText_name_4.setOnFocusChangeListener { view, b ->
-            if (b) {
-                textinputeditText_name_4.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), 3)
+                4 -> {
+                    textLayout_name_3.visibility = View.VISIBLE
+                    textinputeditText_name_3.visibility = View.VISIBLE
+                    textLayout_name_4.visibility = View.VISIBLE
+                    textinputeditText_name_4.visibility = View.VISIBLE
                 }
             }
         }

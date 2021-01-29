@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.example.mtg_commander_timer.*
 import com.example.mtg_commander_timer.activities.MainActivity
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.currentFragNum
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainTime
 import com.example.mtg_commander_timer.dialogs.BattleDialog
 import com.example.mtg_commander_timer.dialogs.DiedDialog
 import com.example.mtg_commander_timer.models.CountDownViewModel
@@ -47,7 +48,9 @@ class CountdownFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       // MainActivity.pauseIconEnabled(true)
+        // MainActivity.pauseIconEnabled(true)
+
+        progressBar.max = 1000
 
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
@@ -55,6 +58,10 @@ class CountdownFragment : Fragment() {
                 try {
                     textview_name.text = it[currentFragNum].name
                     textview_countdown.text = it[currentFragNum].countdownTime.millisToString()
+
+                    progressBar.progress = ((((CountDownViewModel.getProgress(currentFragNum)).toDouble() / mainTime.toDouble()) * 1000)).toInt()
+
+
                 } catch (e: IndexOutOfBoundsException) {
                     Toast.makeText(requireContext(), "Player Died", Toast.LENGTH_SHORT).show()
 

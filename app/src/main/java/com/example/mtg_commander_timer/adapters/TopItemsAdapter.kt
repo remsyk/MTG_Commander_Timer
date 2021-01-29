@@ -32,7 +32,6 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
     override fun getItemCount() = 4
 
-
     @ExperimentalStdlibApi
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         with(viewHolder) {
@@ -52,7 +51,6 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
                             }
 
                         }
-
 
                         MainActivity.firstTimeSet = true
                     }
@@ -88,26 +86,17 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
                 3 -> {
 
-
                     title.text = "Players"
-                    body.text = metricList.size.toString()
+                    body.text = CountDownViewModel.getTimeList().value!!.size.toString()
                     addPlayer.visibility = View.VISIBLE
                     removePlayer.visibility = View.VISIBLE
 
                     addPlayer.setOnClickListener {
-                        if(playerCount<4) {
-                            playerCount++
                         CountDownViewModel.addPlayer(TimerModel("Enter Name", mainTime, null, true))
-                        }
-
                     }
 
                     removePlayer.setOnClickListener {
-                        if (playerCount > 2) {
-                            CountDownViewModel.removeLastPlayer()
-                            playerCount--
-                        }
-
+                        CountDownViewModel.removeLastPlayer()
                     }
                 }
 
@@ -124,7 +113,6 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
         metricList = data
         notifyDataSetChanged()
     }
-
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val card: CardView = view.cardview_top_item_item
