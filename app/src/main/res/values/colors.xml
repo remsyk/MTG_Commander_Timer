@@ -28,4 +28,10 @@
     <color name="lightGray">#3CFFFFFF</color>
     <color name="kraken">#4524CF</color>
 
+    <color name="testPrimaary">#424242</color>
+    <color name="testLight">#6d6d6d</color>
+    <color name="testDark">#1b1b1b</color>
+
+
+
 </resources>

@@ -57,7 +57,7 @@ class CountdownFragment : Fragment() {
             if (textview_name != null) {
                 try {
                     textview_name.text = it[currentFragNum].name
-                    textview_countdown.text = it[currentFragNum].countdownTime.millisToString()
+                    textview_countdown.text = it[currentFragNum].countdownTime.millisToMinString()
 
                     progressBar.progress = ((((CountDownViewModel.getProgress(currentFragNum)).toDouble() / mainTime.toDouble()) * 1000)).toInt()
 

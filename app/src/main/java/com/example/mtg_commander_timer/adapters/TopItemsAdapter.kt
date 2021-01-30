@@ -39,12 +39,12 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
                 0 -> {
                     title.text = "Turn Time"
-                    body.text = mainTime.millisToString()
+                    body.text = mainTime.millisToMinString()
 
                     card.setOnClickListener {
-                        TimeChangeDialog.show(context.supportFragmentManager).getValue = { value ->
+                        TimeChangeBattleDialog.show(context.supportFragmentManager).getValue = { value ->
                             mainTime = value
-                            body.text = mainTime.millisToString()
+                            body.text = mainTime.millisToMinString()
 
                             for (x in 0 until playerCount) {
                                 CountDownViewModel.setPlayerTime(mainTime, x)

@@ -24,37 +24,25 @@ import java.text.FieldPosition
 
 
 //TODO TimerChangeDialog: Fragment already added error
-//TODO space the chips for add minus time out
+//DONE space the chips for add minus time out
 //TODO after someone dies start next timer that appears
 //TODO fix when you go back main fragment the name are correct
 //TODO just start new activity when you back press but presever the individual player time incase someone adds a player last second
-//TODO name input fields request next focus on enter button
+//DONE name input fields request next focus on enter button
 //TODO when last timer runs out a winner is announced with animation
-//TODO circular countdown timer
+//DONE circular countdown timer
 //TODO create app icon (swords as a clock hands)
-//TODO fix button next to text input i dont like how it look
 //TODO try to make true circular swiping for count down activity view pager
-//TODO make the padding for the margins on the cards the same for the sides as the top
-//TODO Remove the app bar
-//TODO edit texts request focus
+//DONE make the padding for the margins on the cards the same for the sides as the top
+//DONE edit texts request focus
 //TODO implement dagger into project
 //TODO implement unit testing into project
+//VER2 add view that shows everyones percentage left on clock for each view
 //DONE fix the wonkey shit that happens when you go back to mainFragment after starting game
 
 
 
 class MainFragment : Fragment() {
-
-
-    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
-            timerList = it
-
-        })
-
-    }*/
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:id="@+id/chip_minus_timer"
         android:text="1:00"
+        android:layout_marginEnd="10dp"
         app:chipIcon="@drawable/ic_remove_24px"
         android:layout_height="wrap_content"/>
 
