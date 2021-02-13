@@ -1,5 +1,6 @@
 package com.example.mtg_commander_timer.fragments
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.example.mtg_commander_timer.*
 import com.example.mtg_commander_timer.activities.MainActivity
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.currentFragNum
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainTime
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.soundOn
 import com.example.mtg_commander_timer.dialogs.BattleDialog
 import com.example.mtg_commander_timer.dialogs.DiedDialog
 import com.example.mtg_commander_timer.models.CountDownViewModel
@@ -60,6 +62,18 @@ class CountdownFragment : Fragment() {
                     textview_countdown.text = it[currentFragNum].countdownTime.millisToMinString()
 
                     progressBar.progress = ((((CountDownViewModel.getProgress(currentFragNum)).toDouble() / mainTime.toDouble()) * 1000)).toInt()
+
+                    if(CountDownViewModel.getProgress(currentFragNum)< 60000  && soundOn){
+
+                        var mediaPlayer = MediaPlayer.create(requireContext(), R.raw.countdown)
+                        mediaPlayer.start()
+                    }
+
+                    if(CountDownViewModel.getProgress(currentFragNum).equals(0)){
+                        CountDownViewModel.stopTimer()
+                        CountDownViewModel.removePlayer(currentFragNum)
+
+                    }
 
 
                 } catch (e: IndexOutOfBoundsException) {
