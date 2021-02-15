@@ -1,5 +1,6 @@
 package com.example.mtg_commander_timer.activities
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -52,6 +53,13 @@ class MainActivity : AppCompatActivity() {
                         if (pressing) {
                             pressing = false
                             Handler().postDelayed({
+
+                                if(soundOn) {
+
+                                    var mediaPlayer = MediaPlayer.create(this, R.raw.loading)
+                                    mediaPlayer.start()
+                                }
+
                                 CountDownViewModel.setTimer(0)
                                 CountDownViewModel.startTimer()
                                 pressing = true
@@ -98,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         var battleTime: Long = 60000
         var removeFrag: Boolean = false
         var mainTime: Long = 0
+        var soundOn = true
         lateinit var mainMenu: Menu
 
 

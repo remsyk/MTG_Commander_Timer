@@ -12,6 +12,7 @@ import com.example.mtg_commander_timer.activities.MainActivity
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.battleTime
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainMenu
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainTime
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.soundOn
 import com.example.mtg_commander_timer.dialogs.TimeChangeBattleDialog
 import com.example.mtg_commander_timer.dialogs.TimeChangeDialog
 import com.example.mtg_commander_timer.models.CountDownViewModel
@@ -77,9 +78,11 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
                         if (soundOn) {
                             body.text = "Off"
                             soundOn = false
+                            MainActivity.soundOn = soundOn
                         } else {
                             body.text = "On"
                             soundOn = true
+                            MainActivity.soundOn = soundOn
                         }
                     }
                 }

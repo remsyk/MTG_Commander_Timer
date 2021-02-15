@@ -56,6 +56,17 @@ class CountdownFragment : Fragment() {
 
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
+
+
+            if(CountDownViewModel.getTimeList().value!!.size.equals(0)  && soundOn){
+
+                var mediaPlayer = MediaPlayer.create(requireContext(), R.raw.player_won)
+                mediaPlayer.start()
+
+                Toast.makeText(requireContext(), "Player Won", Toast.LENGTH_LONG).show()
+
+            }
+
             if (textview_name != null) {
                 try {
                     textview_name.text = it[currentFragNum].name
@@ -123,6 +134,15 @@ class CountdownFragment : Fragment() {
                     if (it) {
                         CountDownViewModel.stopTimer()
                         CountDownViewModel.removePlayer(currentFragNum)
+
+                        if(soundOn){
+
+                            var mediaPlayer = MediaPlayer.create(requireContext(), R.raw.player_died)
+                            mediaPlayer.start()
+                        }
+
+                        Toast.makeText(requireContext(), "Player Died", Toast.LENGTH_LONG).show()
+
                     }
                 }
                 Handler().postDelayed({

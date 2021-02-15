@@ -31,7 +31,7 @@ import java.text.FieldPosition
 //DONE name input fields request next focus on enter button
 //TODO when last timer runs out a winner is announced with animation
 //DONE circular countdown timer
-//TODO create app icon (swords as a clock hands)
+//DONE create app icon (swords as a clock hands)
 //TODO try to make true circular swiping for count down activity view pager
 //DONE make the padding for the margins on the cards the same for the sides as the top
 //DONE edit texts request focus
@@ -39,7 +39,8 @@ import java.text.FieldPosition
 //TODO implement unit testing into project
 //VER2 add view that shows everyones percentage left on clock for each view
 //DONE fix the wonkey shit that happens when you go back to mainFragment after starting game
-
+//TODO implement sound into app
+//TODO what happens when the user wants to play another game
 
 
 class MainFragment : Fragment() {
