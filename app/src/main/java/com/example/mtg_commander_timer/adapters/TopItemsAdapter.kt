@@ -23,7 +23,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
     private lateinit var metricList: MutableList<TimerModel>
     private var playerCount = 2
-    private var soundOn = true
+    private var soundOn = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.cardview_top_item, parent, false))
@@ -72,7 +72,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
 
                 2 -> {
                     title.text = "Sound"
-                    body.text = "On"
+                    body.text = "Off"
 
                     card.setOnClickListener {
                         if (soundOn) {

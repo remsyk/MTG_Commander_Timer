@@ -26,6 +26,10 @@ class CountdownFragment : Fragment() {
 
     var fragmentPos: Int = 0
     var pressing: Boolean = true
+    var fragmentChanged: Boolean = false
+
+    var mediaPlayer = MediaPlayer.create(requireContext(), R.raw.countdown)
+
 
     override fun onResume() {
         super.onResume()
@@ -35,6 +39,12 @@ class CountdownFragment : Fragment() {
             fragmentPos = it
         }
 
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer.release()
     }
 
 
@@ -58,7 +68,7 @@ class CountdownFragment : Fragment() {
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
 
 
-            if(CountDownViewModel.getTimeList().value!!.size.equals(0)  && soundOn){
+            if (CountDownViewModel.getTimeList().value!!.size.equals(0) && soundOn) {
 
                 var mediaPlayer = MediaPlayer.create(requireContext(), R.raw.player_won)
                 mediaPlayer.start()
@@ -74,13 +84,13 @@ class CountdownFragment : Fragment() {
 
                     progressBar.progress = ((((CountDownViewModel.getProgress(currentFragNum)).toDouble() / mainTime.toDouble()) * 1000)).toInt()
 
-                    if(CountDownViewModel.getProgress(currentFragNum)< 60000  && soundOn){
+                    if (CountDownViewModel.getProgress(currentFragNum) < 60000 && soundOn) {
 
-                        var mediaPlayer = MediaPlayer.create(requireContext(), R.raw.countdown)
                         mediaPlayer.start()
+
                     }
 
-                    if(CountDownViewModel.getProgress(currentFragNum).equals(0)){
+                    if (CountDownViewModel.getProgress(currentFragNum).equals(0)) {
                         CountDownViewModel.stopTimer()
                         CountDownViewModel.removePlayer(currentFragNum)
 

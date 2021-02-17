@@ -39,9 +39,10 @@ import java.text.FieldPosition
 //TODO implement unit testing into project
 //VER2 add view that shows everyones percentage left on clock for each view
 //DONE fix the wonkey shit that happens when you go back to mainFragment after starting game
-//TODO implement sound into app
+//DONE implement sound into app
 //TODO what happens when the user wants to play another game
-
+//TODO IndexOutOfBoundsException when you click back button, remove a plauer, then restart the game this exception is thrown on the third fragment in viewpager
+//DONE when a new field is made but no name it sets one of the players to "enter name" (tried fixing by clearing text field after set invisible)
 
 class MainFragment : Fragment() {
 
@@ -73,7 +74,9 @@ class MainFragment : Fragment() {
         editText.setOnFocusChangeListener { view, b ->
             if (b) {
                 editText.doAfterTextChanged {
-                    CountDownViewModel.setPlayerName(it.toString(), position)
+                    if(it.toString() != "") {
+                        CountDownViewModel.setPlayerName(it.toString(), position)
+                    }
                 }
             }
         }
@@ -89,15 +92,21 @@ class MainFragment : Fragment() {
                 2 -> {
                     textLayout_name_3.visibility = View.INVISIBLE
                     textinputeditText_name_3.visibility = View.INVISIBLE
+                    textinputeditText_name_3.text!!.clear()
+
                     textLayout_name_4.visibility = View.INVISIBLE
                     textinputeditText_name_4.visibility = View.INVISIBLE
+                    textinputeditText_name_4.text!!.clear()
+
                 }
 
                 3 -> {
                     textLayout_name_3.visibility = View.VISIBLE
                     textinputeditText_name_3.visibility = View.VISIBLE
+
                     textLayout_name_4.visibility = View.INVISIBLE
                     textinputeditText_name_4.visibility = View.INVISIBLE
+                    textinputeditText_name_4.text!!.clear()
                 }
 
                 4 -> {

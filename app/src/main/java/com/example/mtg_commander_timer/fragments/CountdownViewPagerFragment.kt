@@ -40,15 +40,14 @@ class CountdownViewPagerFragment : Fragment() {
             demoCollectionPagerAdapter.updateData(it)
 
 
+            /*if (CountDownViewModel.getProgress(MainActivity.currentFragNum).equals(0)) {
 
-            if (CountDownViewModel.getProgress(MainActivity.currentFragNum).equals(0)) {
-
-                "werweirhwo".log()
-                /*   CountDownViewModel.stopTimer()
+                "player died cause of time".log()
+                *//*   CountDownViewModel.stopTimer()
                    CountDownViewModel.removePlayer(MainActivity.currentFragNum)
-                   viewPager.currentItem = MainActivity.currentFragNum + 1*/
+                   viewPager.currentItem = MainActivity.currentFragNum + 1*//*
 
-            }
+            }*/
 
         })
 
@@ -81,22 +80,18 @@ class CountdownViewPagerFragment : Fragment() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
 
-
             }
 
             override fun onPageSelected(position: Int) {
 
-                var mediaPlayer = MediaPlayer.create(context, R.raw.swipe)
-                mediaPlayer.start()
                 currentPage = position
 
                 MainActivity.currentFragNum = position
 
-                if(soundOn) {
+                if (MainActivity.soundOn) {
                     var mediaPlayer = MediaPlayer.create(context, R.raw.swipe)
                     mediaPlayer.start()
                 }
-
 
 
                 if (MainActivity.removeFrag) {

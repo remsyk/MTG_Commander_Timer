@@ -106,8 +106,15 @@ class MainActivity : AppCompatActivity() {
         var battleTime: Long = 60000
         var removeFrag: Boolean = false
         var mainTime: Long = 0
-        var soundOn = true
+        var soundOn = false
         lateinit var mainMenu: Menu
+        val mediaPlayer = MediaPlayer()
+
+
+        fun test (){
+
+        }
+
 
 
         fun pauseIconEnabled(pauseEnabled: Boolean) {
@@ -115,5 +122,7 @@ class MainActivity : AppCompatActivity() {
                 mainMenu.findItem(R.id.pause_timer).isVisible = pauseEnabled
             }
         }
+
+
     }
 }
