@@ -56,8 +56,8 @@ class MainActivity : AppCompatActivity() {
 
                                 if(soundOn) {
 
-                                    var mediaPlayer = MediaPlayer.create(this, R.raw.loading)
-                                    mediaPlayer.start()
+                                   /* var mediaPlayer = MediaPlayer.create(this, R.raw.loading)
+                                    mediaPlayer.start()*/
                                 }
 
                                 CountDownViewModel.setTimer(0)

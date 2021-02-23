@@ -28,8 +28,6 @@ class CountdownFragment : Fragment() {
     var pressing: Boolean = true
     var fragmentChanged: Boolean = false
 
-    var mediaPlayer = MediaPlayer.create(requireContext(), R.raw.countdown)
-
 
     override fun onResume() {
         super.onResume()
@@ -39,12 +37,6 @@ class CountdownFragment : Fragment() {
             fragmentPos = it
         }
 
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        mediaPlayer.release()
     }
 
 
@@ -62,20 +54,12 @@ class CountdownFragment : Fragment() {
 
         // MainActivity.pauseIconEnabled(true)
 
+
         progressBar.max = 1000
 
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
 
-
-            if (CountDownViewModel.getTimeList().value!!.size.equals(0) && soundOn) {
-
-                var mediaPlayer = MediaPlayer.create(requireContext(), R.raw.player_won)
-                mediaPlayer.start()
-
-                Toast.makeText(requireContext(), "Player Won", Toast.LENGTH_LONG).show()
-
-            }
 
             if (textview_name != null) {
                 try {
@@ -84,11 +68,6 @@ class CountdownFragment : Fragment() {
 
                     progressBar.progress = ((((CountDownViewModel.getProgress(currentFragNum)).toDouble() / mainTime.toDouble()) * 1000)).toInt()
 
-                    if (CountDownViewModel.getProgress(currentFragNum) < 60000 && soundOn) {
-
-                        mediaPlayer.start()
-
-                    }
 
                     if (CountDownViewModel.getProgress(currentFragNum).equals(0)) {
                         CountDownViewModel.stopTimer()
@@ -98,7 +77,7 @@ class CountdownFragment : Fragment() {
 
 
                 } catch (e: IndexOutOfBoundsException) {
-                    Toast.makeText(requireContext(), "Player Died", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(currentFragNum)} Died", Toast.LENGTH_LONG).show()
 
                 }
 
@@ -142,8 +121,11 @@ class CountdownFragment : Fragment() {
                 pressing = false
                 DiedDialog.show(requireFragmentManager()).getValue = {
                     if (it) {
+
+                        Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(currentFragNum)} Died", Toast.LENGTH_LONG).show()
+
                         CountDownViewModel.stopTimer()
-                        CountDownViewModel.removePlayer(currentFragNum)
+                        CountDownViewModel.removePlayerDied(currentFragNum)
 
                         if(soundOn){
 
@@ -151,7 +133,28 @@ class CountdownFragment : Fragment() {
                             mediaPlayer.start()
                         }
 
-                        Toast.makeText(requireContext(), "Player Died", Toast.LENGTH_LONG).show()
+
+                       /* if(CountDownViewModel.getTimeList().value!!.size == 1){
+
+                            Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(0)} Won", Toast.LENGTH_LONG).show()
+
+                        }*/
+
+
+                        if(CountDownViewModel.getTimeList().value!!.size == 1){
+
+                            "got here".log()
+
+                            //requireFragmentManager().beginTransaction().replace(R.id.framelayout_main, MainFragment()).addToBackStack("CountdownFragment").commit()
+
+
+                            activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
+                            activity!!.supportFragmentManager!!.popBackStack()
+
+                            CountDownViewModel.removePlayer(0)
+                            CountDownViewModel.addPlayer(TimerModel("Enter Name", mainTime, null, true))
+                            CountDownViewModel.addPlayer(TimerModel("Enter Name", mainTime, null, true))
+                        }
 
                     }
                 }

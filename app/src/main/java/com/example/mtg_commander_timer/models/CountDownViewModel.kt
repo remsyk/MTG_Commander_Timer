@@ -44,6 +44,18 @@ object CountDownViewModel : ViewModel() {
         }
     }
 
+    fun removePlayerDied(position: Int) {
+        if(timerList.value!!.size >=2) {
+            timerList.value!!.removeAt(position)
+            timerList.postValue(timerList.value)
+        }
+    }
+
+    fun getPLayerName(position: Int):String{
+        return timerList.value!![position].name
+    }
+
+
     @ExperimentalStdlibApi
     fun removeLastPlayer(){
         if(timerList.value!!.size >2) {

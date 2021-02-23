@@ -26,6 +26,12 @@ class CountdownViewPagerFragment : Fragment() {
     // representing an object in the collection.
     private lateinit var demoCollectionPagerAdapter: DemoCollectionPagerAdapter
     private lateinit var viewPager: ViewPager
+    lateinit var mediaPlayer: MediaPlayer
+
+    override fun onPause() {
+        //mediaPlayer.release()
+        super.onPause()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_countdown_viewpager, container, false)
@@ -36,8 +42,33 @@ class CountdownViewPagerFragment : Fragment() {
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionPagerAdapter
 
+        //mediaPlayer =  MediaPlayer.create(requireContext(), R.raw.countdown)
+
+
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
             demoCollectionPagerAdapter.updateData(it)
+
+
+            /*if (CountDownViewModel.getTimeList().value!!.size.equals(0) && soundOn) {
+
+                var mediaPlayer2 = MediaPlayer.create(requireContext(), R.raw.player_won)
+                mediaPlayer2.start()
+
+                Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(MainActivity.currentFragNum)} Died", Toast.LENGTH_LONG).show()
+
+
+                Toast.makeText(requireContext(), "Player Won", Toast.LENGTH_LONG).show()
+
+            }*/
+
+           /* if (CountDownViewModel.getProgress(MainActivity.currentFragNum) < 60000 && soundOn) {
+
+                //TODO fix this, it gets called to many times
+                mediaPlayer =  MediaPlayer.create(requireContext(), R.raw.countdown)
+                mediaPlayer.start()
+
+                "HOW MANY TIMES MUST I DIE".log()
+            }*/
 
 
             /*if (CountDownViewModel.getProgress(MainActivity.currentFragNum).equals(0)) {
@@ -79,14 +110,16 @@ class CountdownViewPagerFragment : Fragment() {
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
-
             }
 
             override fun onPageSelected(position: Int) {
 
                 currentPage = position
 
+                //mediaPlayer.release()
+
                 MainActivity.currentFragNum = position
+
 
                 if (MainActivity.soundOn) {
                     var mediaPlayer = MediaPlayer.create(context, R.raw.swipe)
