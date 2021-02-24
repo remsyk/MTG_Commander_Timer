@@ -31,37 +31,44 @@ object CountDownViewModel : ViewModel() {
     }
 
     fun addPlayer(timer: TimerModel) {
-        if(timerList.value!!.size<4) {
+        if (timerList.value!!.size < 4) {
             timerList.value!!.add(timer)
             timerList.postValue(timerList.value)
         }
     }
 
     fun removePlayer(position: Int) {
-        if(timerList.value!!.size >2) {
+        if (timerList.value!!.size > 2) {
             timerList.value!!.removeAt(position)
             timerList.postValue(timerList.value)
         }
     }
 
     fun removePlayerDied(position: Int) {
-        if(timerList.value!!.size >=2) {
+        if (timerList.value!!.size >= 2) {
             timerList.value!!.removeAt(position)
             timerList.postValue(timerList.value)
         }
     }
 
-    fun getPLayerName(position: Int):String{
+    fun getPLayerName(position: Int): String {
         return timerList.value!![position].name
     }
 
 
     @ExperimentalStdlibApi
-    fun removeLastPlayer(){
-        if(timerList.value!!.size >2) {
+    fun removeLastPlayer() {
+        if (timerList.value!!.size > 2) {
             timerList.value!!.removeLast()
             timerList.postValue(timerList.value)
         }
+    }
+
+    @ExperimentalStdlibApi
+    fun removeLastPlayer2() {
+        timerList.value!!.removeLast()
+        timerList.postValue(timerList.value)
+
     }
 
     fun removeRangePlayer(position: Int) {
@@ -79,6 +86,14 @@ object CountDownViewModel : ViewModel() {
     fun addMinute(position: Int) {
         timerList.value?.get(position)?.countdownTime = timerList.value?.get(position)?.countdownTime?.plus(60000)!!
         timerList.postValue(timerList.value)
+    }
+
+    fun clearPlayers(){
+        timerList.value!!.clear()
+        timerList.postValue(timerList.value)
+
+        addPlayer(TimerModel("Enter Name", mainTime, null, true))
+        addPlayer(TimerModel("Enter Name", mainTime, null, true))
     }
 
 
@@ -125,7 +140,7 @@ object CountDownViewModel : ViewModel() {
 
     }
 
-    fun getProgress(position: Int)= (timerList.value!![position].countdownTime)
+    fun getProgress(position: Int) = (timerList.value!![position].countdownTime)
 
 
 }

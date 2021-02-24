@@ -49,6 +49,7 @@ class CountdownFragment : Fragment() {
     }
 
 
+    @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -134,26 +135,17 @@ class CountdownFragment : Fragment() {
                         }
 
 
-                       /* if(CountDownViewModel.getTimeList().value!!.size == 1){
-
-                            Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(0)} Won", Toast.LENGTH_LONG).show()
-
-                        }*/
-
-
                         if(CountDownViewModel.getTimeList().value!!.size == 1){
-
-                            "got here".log()
-
-                            //requireFragmentManager().beginTransaction().replace(R.id.framelayout_main, MainFragment()).addToBackStack("CountdownFragment").commit()
-
 
                             activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
                             activity!!.supportFragmentManager!!.popBackStack()
 
-                            CountDownViewModel.removePlayer(0)
-                            CountDownViewModel.addPlayer(TimerModel("Enter Name", mainTime, null, true))
-                            CountDownViewModel.addPlayer(TimerModel("Enter Name", mainTime, null, true))
+                            Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(0)} Won", Toast.LENGTH_LONG).show()
+
+
+                            CountDownViewModel.clearPlayers()
+
+
                         }
 
                     }

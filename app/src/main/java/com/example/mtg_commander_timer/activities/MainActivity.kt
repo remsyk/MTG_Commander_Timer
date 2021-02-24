@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.mtg_commander_timer.R
+import com.example.mtg_commander_timer.dialogs.PauseDialog
 import com.example.mtg_commander_timer.fragments.CountdownViewPagerFragment
 import com.example.mtg_commander_timer.fragments.MainFragment
 import com.example.mtg_commander_timer.log
@@ -88,7 +89,8 @@ class MainActivity : AppCompatActivity() {
                     pressing = false
 
                     CountDownViewModel.stopTimer()
-                    Toast.makeText(this, "Paused", Toast.LENGTH_SHORT).show()
+
+                    PauseDialog.show(supportFragmentManager )
 
                     Handler().postDelayed({
                         pressing = true

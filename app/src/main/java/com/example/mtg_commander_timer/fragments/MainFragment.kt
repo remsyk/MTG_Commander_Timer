@@ -44,6 +44,9 @@ import java.text.FieldPosition
 //TODO IndexOutOfBoundsException when you click back button, remove a player, then restart the game this exception is thrown on the third fragment in viewpager
 //DONE when a new field is made but no name it sets one of the players to "enter name" (tried fixing by clearing text field after set invisible)
 //VER2 add cool animations
+//TODO add restart game on pause dialog
+//TODO add add space on bottom of the app
+
 
 class MainFragment : Fragment() {
 
