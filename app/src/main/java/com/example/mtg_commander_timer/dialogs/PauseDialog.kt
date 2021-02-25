@@ -18,28 +18,19 @@ import kotlinx.android.synthetic.main.viewgroup_timer_picker.view.*
 class PauseDialog : DialogFragment() {
 
     var getValue: ((value: Boolean) -> Unit)? = null
+    private var resetPreesed = false
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         return AlertDialog.Builder(requireContext())
             .setMessage("Paused")
             .setNegativeButton("Reset") { dialog, _ ->
-
-                CountDownViewModel.clearPlayers()
-
-                activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
-                activity!!.supportFragmentManager!!.popBackStack()
-
+                resetPreesed = true
                 dialog.dismiss()
-
             }
 
             .setPositiveButton("Resume") { dialog, _ ->
-                CountDownViewModel.setTimer(MainActivity.currentFragNum)
-                CountDownViewModel.startTimer()
-
                 dialog.dismiss()
-
             }
 
 
@@ -48,8 +39,25 @@ class PauseDialog : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
 
-        CountDownViewModel.setTimer(MainActivity.currentFragNum)
-        CountDownViewModel.startTimer()
+        getValue?.let {
+            it(true)
+            if(resetPreesed) {
+
+                CountDownViewModel.clearPlayers()
+
+                MainActivity.mainTime = 0
+
+                activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
+                activity!!.supportFragmentManager!!.popBackStack()
+
+            }else{
+
+                CountDownViewModel.setTimer(MainActivity.currentFragNum)
+                CountDownViewModel.startTimer()
+
+            }
+        }
+
 
         super.onDismiss(dialog)
     }

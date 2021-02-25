@@ -18,6 +18,7 @@ class BattleDialog : DialogFragment() {
     var getValue: ((value: Boolean) -> Unit)? = null
     private lateinit var timer: CountDownTimer
 
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val rootView = LayoutInflater.from(context).inflate(R.layout.viewgroup_battle_dialog, null, false)

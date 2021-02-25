@@ -23,30 +23,6 @@ import kotlinx.android.synthetic.main.fragment_main_view.view.*
 import java.text.FieldPosition
 
 
-//DONE TimerChangeDialog: Fragment already added error
-//DONE space the chips for add minus time out
-//TODO after someone dies start next timer that appears
-//DONE fix when you go back main fragment the name are correct
-//TODO just start new activity when you back press but presever the individual player time incase someone adds a player last second
-//DONE name input fields request next focus on enter button
-//TODO when last timer runs out a winner is announced with animation
-//DONE circular countdown timer
-//DONE create app icon (swords as a clock hands)
-//VER2 try to make true circular swiping for count down activity view pager
-//DONE make the padding for the margins on the cards the same for the sides as the top
-//DONE edit texts request focus
-//TODO implement dagger into project
-//VER2 implement unit testing into project
-//VER2 add view that shows everyones percentage left on clock for each view
-//DONE fix the wonkey shit that happens when you go back to mainFragment after starting game
-//DONE implement sound into app
-//TODO what happens when the user wants to play another game
-//TODO IndexOutOfBoundsException when you click back button, remove a player, then restart the game this exception is thrown on the third fragment in viewpager
-//DONE when a new field is made but no name it sets one of the players to "enter name" (tried fixing by clearing text field after set invisible)
-//VER2 add cool animations
-//TODO add restart game on pause dialog
-//TODO add add space on bottom of the app
-
 
 class MainFragment : Fragment() {
 

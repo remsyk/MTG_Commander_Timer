@@ -144,6 +144,7 @@ class CountdownFragment : Fragment() {
 
 
                             CountDownViewModel.clearPlayers()
+                            mainTime = 0
 
 
                         }
