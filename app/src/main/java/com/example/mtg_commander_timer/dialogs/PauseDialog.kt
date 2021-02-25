@@ -30,6 +30,8 @@ class PauseDialog : DialogFragment() {
             }
 
             .setPositiveButton("Resume") { dialog, _ ->
+                resetPreesed = false
+
                 dialog.dismiss()
             }
 
@@ -40,7 +42,7 @@ class PauseDialog : DialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
 
         getValue?.let {
-            it(true)
+            it(resetPreesed)
             if(resetPreesed) {
 
                 CountDownViewModel.clearPlayers()
