@@ -41,7 +41,10 @@ import com.google.android.gms.ads.MobileAds
 //DONE when a new field is made but no name it sets one of the players to "enter name" (tried fixing by clearing text field after set invisible)
 //VER2 add cool animations
 //DONE add restart game on pause dialog
-//TODO add add space on bottom of the app
+//DONE add add space on bottom of the app
+//TODO add comments
+//TODO fix sound issue media player
+//DONE player timer runs out and then reset the game and then set time to below 1 min and restart the game, no player lost is announced and game doesnt reset
 
 
 
@@ -60,14 +63,16 @@ class MainActivity : AppCompatActivity() {
 
 
         MobileAds.initialize(this) {}
-
         mInterstitialAd = InterstitialAd(this)
+
+        //TODO change on deployment from test ca-app
         mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
         mInterstitialAd.loadAd(AdRequest.Builder().build())
 
 
     }
 
+    //needs  to stop timer and and ensure that when there is only one fragment left exit the app instead of entering a empty activity
     override fun onBackPressed() {
         CountDownViewModel.stopTimer()
         if (supportFragmentManager.backStackEntryCount == 1) {
@@ -76,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -88,6 +94,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.start_timer -> {
+                //allow button to be pressed after user set battle time
                 if (firstTimeSet) {
                     if (supportFragmentManager.backStackEntryCount == 1) {
                         supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, CountdownViewPagerFragment()).addToBackStack("CountdownFragment").commit()
@@ -107,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                                 pressing = true
                             }, 800)
                         }
-
+                    //cant let user smash start button or to many timer threads will be started
                     } else {
                         if (pressing) {
                             pressing = false
@@ -118,6 +125,7 @@ class MainActivity : AppCompatActivity() {
                             }, 800)
                         }
                     }
+                    //else toast message telling them to set a time to start
                 } else {
                     Toast.makeText(this, "Set time to start", Toast.LENGTH_LONG).show()
                 }
@@ -130,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                     pressing = false
 
                     CountDownViewModel.stopTimer()
-
+                    //Show pause dialog to allow user to reset game and know that game is paused
                     PauseDialog.show(supportFragmentManager).getValue={
                         if(it){
                             if(mInterstitialAd.isLoaded){
@@ -153,22 +161,15 @@ class MainActivity : AppCompatActivity() {
 
 
     companion object {
-        var currentFragNum = 0
-        var firstTimeSet = false
-        var battleTime: Long = 60000
-        var removeFrag: Boolean = false
-        var mainTime: Long = 0
+        var currentFragNum = 0 //current fragment in view
+        var firstTimeSet = false //did the user set the first battle timer
+        var battleTime: Long = 60000 //time for when player presses battle
+        var removeFrag: Boolean = false //not sure what this is
+        var mainTime: Long = 0//this is the  main countdown time
         var soundOn = false
         lateinit var mainMenu: Menu
-        val mediaPlayer = MediaPlayer()
 
-
-        fun test (){
-
-        }
-
-
-
+        //dont show pause icon before game has started, dont need the functionality yet
         fun pauseIconEnabled(pauseEnabled: Boolean) {
             if (::mainMenu.isInitialized) {
                 mainMenu.findItem(R.id.pause_timer).isVisible = pauseEnabled

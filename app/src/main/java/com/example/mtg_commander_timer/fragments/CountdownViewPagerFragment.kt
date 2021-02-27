@@ -27,11 +27,17 @@ class CountdownViewPagerFragment : Fragment() {
     private lateinit var demoCollectionPagerAdapter: DemoCollectionPagerAdapter
     private lateinit var viewPager: ViewPager
     lateinit var mediaPlayer: MediaPlayer
+    var isTheMediaPlayerNotPlaying = true
 
     override fun onPause() {
-        //mediaPlayer.release()
+
+        if (::mediaPlayer.isInitialized) {
+            mediaPlayer.release()
+
+        }
         super.onPause()
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_countdown_viewpager, container, false)
@@ -43,6 +49,8 @@ class CountdownViewPagerFragment : Fragment() {
         viewPager.adapter = demoCollectionPagerAdapter
 
         //mediaPlayer =  MediaPlayer.create(requireContext(), R.raw.countdown)
+
+        mediaPlayer = MediaPlayer.create(requireContext(), R.raw.countdown)
 
 
         CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
@@ -61,24 +69,46 @@ class CountdownViewPagerFragment : Fragment() {
 
             }*/
 
-           /* if (CountDownViewModel.getProgress(MainActivity.currentFragNum) < 60000 && soundOn) {
+                //start audio when user has less than 1min left and sound is on and the mediaplayer isn't already playing
+            if (CountDownViewModel.getProgress(MainActivity.currentFragNum) < 60000 && soundOn && isTheMediaPlayerNotPlaying) {
 
                 //TODO fix this, it gets called to many times
-                mediaPlayer =  MediaPlayer.create(requireContext(), R.raw.countdown)
                 mediaPlayer.start()
+                isTheMediaPlayerNotPlaying = false
 
-                "HOW MANY TIMES MUST I DIE".log()
-            }*/
+            }
 
 
-            /*if (CountDownViewModel.getProgress(MainActivity.currentFragNum).equals(0)) {
+            //CountDownViewModel.getProgress(MainActivity.currentFragNum).log()
 
-                "player died cause of time".log()
-                *//*   CountDownViewModel.stopTimer()
-                   CountDownViewModel.removePlayer(MainActivity.currentFragNum)
-                   viewPager.currentItem = MainActivity.currentFragNum + 1*//*
 
-            }*/
+            if (CountDownViewModel.getProgress(MainActivity.currentFragNum) <= 1000) {
+
+
+                //if there is only player left then the game ends
+                if(CountDownViewModel.getTimeList().value!!.size == 1){
+
+                    activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
+                    activity!!.supportFragmentManager!!.popBackStack()
+
+                    Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(0)} Won", Toast.LENGTH_LONG).show()
+
+
+                    CountDownViewModel.clearPlayers()
+                    MainActivity.mainTime = 0 //reset main time
+
+                }else{
+
+                    Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(MainActivity.currentFragNum)} Died", Toast.LENGTH_LONG).show()
+
+                }
+
+                CountDownViewModel.stopTimer()
+                CountDownViewModel.removePlayerDied(MainActivity.currentFragNum)
+
+                //viewPager.currentItem = MainActivity.currentFragNum + 1
+
+            }
 
         })
 
@@ -116,17 +146,25 @@ class CountdownViewPagerFragment : Fragment() {
 
                 currentPage = position
 
-                //mediaPlayer.release()
+                isTheMediaPlayerNotPlaying = true //stop current media player playing when page changes
+
+                if (::mediaPlayer.isInitialized) {
+                    if (mediaPlayer.isPlaying) {
+                        mediaPlayer.pause()
+                    }
+                }
 
                 MainActivity.currentFragNum = position
 
 
+                //play swipe sound when swipping
                 if (MainActivity.soundOn) {
                     var mediaPlayer = MediaPlayer.create(context, R.raw.swipe)
                     mediaPlayer.start()
                 }
 
 
+                //TODO not sure what this does, or when it gets called
                 if (MainActivity.removeFrag) {
                     CountDownViewModel.removePlayer(position - 1)
 
@@ -151,12 +189,13 @@ class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapte
     override fun getItem(i: Int): Fragment {
         val fragment = CountdownFragment()
         fragment.arguments = Bundle().apply {
-            // Our object is just an integer :-P
+            // Our object is just an integer
             putInt("FRG_POSITION", i)
         }
         return fragment
     }
 
+    //update data from view model for when players are added or removed
     fun updateData(newData: MutableList<TimerModel>) {
         data = newData
         notifyDataSetChanged()

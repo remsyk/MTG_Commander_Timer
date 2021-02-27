@@ -24,9 +24,8 @@ import com.example.mtg_commander_timer.models.TimerModel
 
 class CountdownFragment : Fragment() {
 
-    var fragmentPos: Int = 0
-    var pressing: Boolean = true
-    var fragmentChanged: Boolean = false
+    var fragmentPos: Int = 0 //current fragment position
+    var pressing: Boolean = true  //if any button is  being pressed, dont allow things to be pressed at the same time
 
 
     override fun onResume() {
@@ -42,7 +41,7 @@ class CountdownFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_countdown, container, false)
-        MainActivity.pauseIconEnabled(true)
+        MainActivity.pauseIconEnabled(true) //enable pause button
 
         return root
 
@@ -67,16 +66,18 @@ class CountdownFragment : Fragment() {
                     textview_name.text = it[currentFragNum].name
                     textview_countdown.text = it[currentFragNum].countdownTime.millisToMinString()
 
+                    //have progress bar element decrement
                     progressBar.progress = ((((CountDownViewModel.getProgress(currentFragNum)).toDouble() / mainTime.toDouble()) * 1000)).toInt()
 
 
+                    //TODO fix this, it will never get called, cant equal 0, it will need to be less than 1000 or something like
                     if (CountDownViewModel.getProgress(currentFragNum).equals(0)) {
                         CountDownViewModel.stopTimer()
                         CountDownViewModel.removePlayer(currentFragNum)
 
                     }
 
-
+                    //The IndexOutOfBoundsException will be thrown by CountDownFragmetViewPager when a player is removed, this will catch that exception and show that player has died
                 } catch (e: IndexOutOfBoundsException) {
                     Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(currentFragNum)} Died", Toast.LENGTH_LONG).show()
 
@@ -87,6 +88,7 @@ class CountdownFragment : Fragment() {
         })
 
 
+        //button to add time to main time for user
         include_chip_groups.chip_add_time.setOnClickListener {
             CountDownViewModel.addMinute(currentFragNum)
 
@@ -102,6 +104,7 @@ class CountdownFragment : Fragment() {
             }
         }
 
+        //button to reduce time for user
         include_chip_groups.chip_minus_timer.setOnClickListener {
             CountDownViewModel.removeMinute(currentFragNum)
             if (pressing) {
@@ -117,9 +120,12 @@ class CountdownFragment : Fragment() {
 
         }
 
+        //button user presses when a player is killed in the game and needs to be removed from game
         button_died.setOnClickListener {
             if (pressing) {
                 pressing = false
+
+                //Prompt user that they are sure that player has died then, return the value from the users input either removing player or not
                 DiedDialog.show(requireFragmentManager()).getValue = {
                     if (it) {
 
@@ -135,20 +141,18 @@ class CountdownFragment : Fragment() {
                         }
 
 
+                            //if there is only one player left then they are the winner and the game resets
                         if(CountDownViewModel.getTimeList().value!!.size == 1){
-
                             activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
                             activity!!.supportFragmentManager!!.popBackStack()
 
                             Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(0)} Won", Toast.LENGTH_LONG).show()
 
 
-                            CountDownViewModel.clearPlayers()
+                            CountDownViewModel.clearPlayers() // clear all players from the view model and add 2 more for the reset
                             mainTime = 0
 
-
                         }
-
                     }
                 }
                 Handler().postDelayed({
@@ -157,6 +161,7 @@ class CountdownFragment : Fragment() {
             }
         }
 
+        //button for when players enter battle phase start battle timer
         button_battle.setOnClickListener {
             CountDownViewModel.stopTimer()
             if (pressing) {
@@ -168,6 +173,7 @@ class CountdownFragment : Fragment() {
                         pressing = true
                     }
                 }
+                //dont let them smash button
                 Handler().postDelayed({
                     pressing = true
                 }, 1000)

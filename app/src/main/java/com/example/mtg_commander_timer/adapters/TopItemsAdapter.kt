@@ -43,10 +43,11 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
                     body.text = mainTime.millisToMinString()
 
                     card.setOnClickListener {
-                        TimeChangeBattleDialog.show(context.supportFragmentManager).getValue = { value ->
+                        TimeChangeDialog.show(context.supportFragmentManager).getValue = { value ->
                             mainTime = value
-                            body.text = mainTime.millisToMinString()
+                            body.text = mainTime.millisToMinString() //return value from dialog and convert to string for view
 
+                            //set each player with the same main time
                             for (x in 0 until playerCount) {
                                 CountDownViewModel.setPlayerTime(mainTime, x)
                             }
@@ -62,6 +63,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
                     title.text = "Battle Time"
                     body.text = battleTime.millisToMinString()
 
+                    //get battle time back from dialog
                     card.setOnClickListener {
                         TimeChangeBattleDialog.show(context.supportFragmentManager).getValue = { value ->
                             battleTime = value
@@ -94,6 +96,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
                     addPlayer.visibility = View.VISIBLE
                     removePlayer.visibility = View.VISIBLE
 
+                    //add new player with enter name as name but has mainTime that was set
                     addPlayer.setOnClickListener {
                         CountDownViewModel.addPlayer(TimerModel("Enter Name", mainTime, null, true))
                     }
@@ -112,6 +115,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
         }
     }
 
+    //update data from the view model
     fun updateData(data: MutableList<TimerModel>) {
         metricList = data
         notifyDataSetChanged()

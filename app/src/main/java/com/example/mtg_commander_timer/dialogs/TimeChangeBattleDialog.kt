@@ -8,7 +8,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.example.mtg_commander_timer.R
 import com.example.mtg_commander_timer.longToString2
+import kotlinx.android.synthetic.main.viewgroup_dialog_set_battle_countdown.*
+import kotlinx.android.synthetic.main.viewgroup_dialog_set_battle_countdown.picker_time_seconds
+import kotlinx.android.synthetic.main.viewgroup_dialog_set_battle_countdown.view.*
 import kotlinx.android.synthetic.main.viewgroup_dialog_set_countdown.view.*
+import kotlinx.android.synthetic.main.viewgroup_dialog_set_countdown.view.picker_time_minutes
 import kotlinx.android.synthetic.main.viewgroup_timer_picker.view.*
 
 class TimeChangeBattleDialog : DialogFragment() {

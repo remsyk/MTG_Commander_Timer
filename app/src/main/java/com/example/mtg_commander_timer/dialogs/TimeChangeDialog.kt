@@ -24,12 +24,6 @@ class TimeChangeDialog : DialogFragment() {
         )
 
         with(rootView) {
-            picker_time_hours.picker_time.minValue = 0
-            picker_time_hours.picker_time.maxValue = 23
-            picker_time_hours.timer_picker_name.text = "hr"
-            picker_time_hours.picker_time.displayedValues = resources.getStringArray(
-                R.array.time
-            )
 
             picker_time_minutes.picker_time.minValue = 0
             picker_time_minutes.picker_time.maxValue = 23
@@ -38,27 +32,19 @@ class TimeChangeDialog : DialogFragment() {
                 R.array.time
             )
 
-            picker_time_seconds.picker_time.minValue = 0
-            picker_time_seconds.picker_time.maxValue = 23
-            picker_time_seconds.timer_picker_name.text = "s"
-            picker_time_seconds.picker_time.displayedValues = resources.getStringArray(
-                R.array.time
-            )
 
         }
 
         return AlertDialog.Builder(requireContext())
             .setTitle("Set player countdown")
             .setNegativeButton("Set") { dialog, _ ->
+                //get value from user input after user has pressed the button and pass that to the view model
                 getValue?.let {
                     it(
                         longToString2(
-                            resources.getStringArray(R.array.time)
-                                .get(rootView.picker_time_hours.picker_time.value),
-                            resources.getStringArray(R.array.time)
-                                .get(rootView.picker_time_minutes.picker_time.value),
-                            resources.getStringArray(R.array.time)
-                                .get(rootView.picker_time_seconds.picker_time.value)
+                            0.toString(),
+                            resources.getStringArray(R.array.time).get(rootView.picker_time_minutes.picker_time.value),
+                            0.toString()
                         )
                     )
                 }

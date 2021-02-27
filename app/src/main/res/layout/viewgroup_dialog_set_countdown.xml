@@ -8,11 +8,6 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <include
-        android:id="@+id/picker_time_hours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/viewgroup_timer_picker"/>
 
     <include
         android:id="@+id/picker_time_minutes"
@@ -20,11 +15,6 @@
         android:layout_height="wrap_content"
         layout="@layout/viewgroup_timer_picker"/>
 
-    <include
-        android:id="@+id/picker_time_seconds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/viewgroup_timer_picker"/>
 
 
 </LinearLayout>

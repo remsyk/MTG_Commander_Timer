@@ -79,16 +79,20 @@ object CountDownViewModel : ViewModel() {
     fun getTimeList(): MutableLiveData<MutableList<TimerModel>> = timerList
 
     fun removeMinute(position: Int) {
-        timerList.value?.get(position)?.countdownTime = timerList.value?.get(position)?.countdownTime?.minus(60000)!!
-        timerList.postValue(timerList.value)
+        if ((timerList.value?.get(position)?.countdownTime!!) >= 60000.00) {
+
+            timerList.value?.get(position)?.countdownTime = timerList.value?.get(position)?.countdownTime?.minus(60000)!!
+            timerList.postValue(timerList.value)
+        }
     }
 
     fun addMinute(position: Int) {
         timerList.value?.get(position)?.countdownTime = timerList.value?.get(position)?.countdownTime?.plus(60000)!!
         timerList.postValue(timerList.value)
+
     }
 
-    fun clearPlayers(){
+    fun clearPlayers() {
         timerList.value!!.clear()
         timerList.postValue(timerList.value)
 
@@ -111,7 +115,6 @@ object CountDownViewModel : ViewModel() {
                     } catch (e: IndexOutOfBoundsException) {
 
                     }
-
                 }
 
                 override fun onFinish() {
