@@ -73,7 +73,7 @@ class CountdownFragment : Fragment() {
                     //TODO fix this, it will never get called, cant equal 0, it will need to be less than 1000 or something like
                     if (CountDownViewModel.getProgress(currentFragNum).equals(0)) {
                         CountDownViewModel.stopTimer()
-                        CountDownViewModel.removePlayerFromSetup(currentFragNum)
+                        CountDownViewModel.removePlayerDied(currentFragNum)
 
                     }
 

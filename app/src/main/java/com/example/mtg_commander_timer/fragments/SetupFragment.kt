@@ -13,11 +13,8 @@ import com.example.mtg_commander_timer.adapters.TopItemsAdapter
 import com.example.mtg_commander_timer.models.CountDownViewModel
 import com.example.mtg_commander_timer.models.TimerModel
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.fragment_main_view.*
-import kotlinx.android.synthetic.main.fragment_main_view.textLayout_name_4
-import kotlinx.android.synthetic.main.fragment_main_view.textinputeditText_name_3
-import kotlinx.android.synthetic.main.fragment_main_view.textinputeditText_name_4
-import kotlinx.android.synthetic.main.fragment_main_view.view.*
+import kotlinx.android.synthetic.main.fragment_setup.*
+import kotlinx.android.synthetic.main.fragment_setup.view.*
 
 
 class SetupFragment : Fragment() {

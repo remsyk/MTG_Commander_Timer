@@ -37,6 +37,10 @@ object CountDownViewModel : ViewModel() {
         }
     }
 
+    fun getPLayerName(position: Int): String {
+        return timerList.value!![position].name
+    }
+
     //remove player during main fragment setup cant let there be less than 2 players
     fun removePlayerFromSetup(position: Int) {
         if (timerList.value!!.size > 2) {
@@ -45,17 +49,11 @@ object CountDownViewModel : ViewModel() {
         }
     }
 
-
     //remove player during play when they die from time running our being killed
     fun removePlayerDied(position: Int) {
         timerList.value!!.removeAt(position)
         timerList.postValue(timerList.value)
     }
-
-    fun getPLayerName(position: Int): String {
-        return timerList.value!![position].name
-    }
-
 
     //remove last player during setup
     @ExperimentalStdlibApi
@@ -98,7 +96,6 @@ object CountDownViewModel : ViewModel() {
         addPlayer(TimerModel("Enter Name", mainTime, null, true))
     }
 
-
     fun setTimer(position: Int) {
 
         if (!timerRunning) {
@@ -117,12 +114,11 @@ object CountDownViewModel : ViewModel() {
 
                 override fun onFinish() {
                     "Timer onFishing Called".log()
-                    removePlayerFromSetup(position)
+                    //removePlayerDied(position)
                 }
             }
         }
     }
-
 
     fun startTimer() {
         if (!timerRunning) {
