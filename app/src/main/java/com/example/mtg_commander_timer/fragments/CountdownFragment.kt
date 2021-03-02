@@ -58,7 +58,7 @@ class CountdownFragment : Fragment() {
         progressBar.max = 1000
 
 
-        CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
+        CountDownViewModel.getPlayerList().observe(activity!!, Observer<MutableList<TimerModel>> {
 
 
             if (textview_name != null) {
@@ -73,7 +73,7 @@ class CountdownFragment : Fragment() {
                     //TODO fix this, it will never get called, cant equal 0, it will need to be less than 1000 or something like
                     if (CountDownViewModel.getProgress(currentFragNum).equals(0)) {
                         CountDownViewModel.stopTimer()
-                        CountDownViewModel.removePlayer(currentFragNum)
+                        CountDownViewModel.removePlayerFromSetup(currentFragNum)
 
                     }
 
@@ -142,7 +142,7 @@ class CountdownFragment : Fragment() {
 
 
                             //if there is only one player left then they are the winner and the game resets
-                        if(CountDownViewModel.getTimeList().value!!.size == 1){
+                        if(CountDownViewModel.getPlayerList().value!!.size == 1){
                             activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
                             activity!!.supportFragmentManager!!.popBackStack()
 

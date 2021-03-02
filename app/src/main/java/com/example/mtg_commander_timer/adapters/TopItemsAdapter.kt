@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mtg_commander_timer.*
 import com.example.mtg_commander_timer.activities.MainActivity
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.battleTime
-import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainMenu
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainTime
-import com.example.mtg_commander_timer.activities.MainActivity.Companion.soundOn
 import com.example.mtg_commander_timer.dialogs.TimeChangeBattleDialog
 import com.example.mtg_commander_timer.dialogs.TimeChangeDialog
 import com.example.mtg_commander_timer.models.CountDownViewModel
@@ -92,7 +90,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
                 3 -> {
 
                     title.text = "Players"
-                    body.text = CountDownViewModel.getTimeList().value!!.size.toString()
+                    body.text = CountDownViewModel.getPlayerList().value!!.size.toString()
                     addPlayer.visibility = View.VISIBLE
                     removePlayer.visibility = View.VISIBLE
 
@@ -102,7 +100,7 @@ class TopItemsAdapter(private val context: FragmentActivity) : RecyclerView.Adap
                     }
 
                     removePlayer.setOnClickListener {
-                        CountDownViewModel.removeLastPlayer()
+                        CountDownViewModel.removeLastPlayerSetup()
                     }
                 }
 

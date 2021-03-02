@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.mtg_commander_timer.*
-import com.example.mtg_commander_timer.activities.MainActivity
 import com.example.mtg_commander_timer.adapters.TopItemsAdapter
 import com.example.mtg_commander_timer.models.CountDownViewModel
 import com.example.mtg_commander_timer.models.TimerModel
@@ -20,15 +18,13 @@ import kotlinx.android.synthetic.main.fragment_main_view.textLayout_name_4
 import kotlinx.android.synthetic.main.fragment_main_view.textinputeditText_name_3
 import kotlinx.android.synthetic.main.fragment_main_view.textinputeditText_name_4
 import kotlinx.android.synthetic.main.fragment_main_view.view.*
-import java.text.FieldPosition
 
 
-
-class MainFragment : Fragment() {
+class SetupFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main_view, container, false)
+        return inflater.inflate(R.layout.fragment_setup, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,7 +34,7 @@ class MainFragment : Fragment() {
         val adapter = TopItemsAdapter(requireActivity())
         recyclerView_top_items.adapter = adapter
 
-        CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
+        CountDownViewModel.getPlayerList().observe(activity!!, Observer<MutableList<TimerModel>> {
             adapter.updateData(it)
             updatePLayerCount(view, it.size)
         })

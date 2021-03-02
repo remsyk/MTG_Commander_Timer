@@ -1,6 +1,5 @@
 package com.example.mtg_commander_timer.activities
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -11,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.mtg_commander_timer.R
 import com.example.mtg_commander_timer.dialogs.PauseDialog
 import com.example.mtg_commander_timer.fragments.CountdownViewPagerFragment
-import com.example.mtg_commander_timer.fragments.MainFragment
+import com.example.mtg_commander_timer.fragments.SetupFragment
 import com.example.mtg_commander_timer.log
 import com.example.mtg_commander_timer.models.CountDownViewModel
 import com.google.android.gms.ads.AdRequest
@@ -42,10 +41,10 @@ import com.google.android.gms.ads.MobileAds
 //VER2 add cool animations
 //DONE add restart game on pause dialog
 //DONE add add space on bottom of the app
-//TODO add comments
+//DONE add comments
 //TODO fix sound issue media player
 //DONE player timer runs out and then reset the game and then set time to below 1 min and restart the game, no player lost is announced and game doesnt reset
-
+//TODO check implementation of the remove player functionality for method calls, make sure the right ones are being called
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, MainFragment()).addToBackStack("MainFragment").commit()
+        supportFragmentManager.beginTransaction().replace(R.id.framelayout_main, SetupFragment()).addToBackStack("MainFragment").commit()
 
 
         MobileAds.initialize(this) {}

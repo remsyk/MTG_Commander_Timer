@@ -53,7 +53,7 @@ class CountdownViewPagerFragment : Fragment() {
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.countdown)
 
 
-        CountDownViewModel.getTimeList().observe(activity!!, Observer<MutableList<TimerModel>> {
+        CountDownViewModel.getPlayerList().observe(activity!!, Observer<MutableList<TimerModel>> {
             demoCollectionPagerAdapter.updateData(it)
 
 
@@ -81,12 +81,12 @@ class CountdownViewPagerFragment : Fragment() {
 
             //CountDownViewModel.getProgress(MainActivity.currentFragNum).log()
 
-
+            //If the timer goes to 0 which wont happen so its set to 1000, then begin the remove player protocol
             if (CountDownViewModel.getProgress(MainActivity.currentFragNum) <= 1000) {
 
 
                 //if there is only player left then the game ends
-                if(CountDownViewModel.getTimeList().value!!.size == 1){
+                if(CountDownViewModel.getPlayerList().value!!.size == 1){
 
                     activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
                     activity!!.supportFragmentManager!!.popBackStack()
@@ -166,7 +166,7 @@ class CountdownViewPagerFragment : Fragment() {
 
                 //TODO not sure what this does, or when it gets called
                 if (MainActivity.removeFrag) {
-                    CountDownViewModel.removePlayer(position - 1)
+                    CountDownViewModel.removePlayerFromSetup(position - 1)
 
                 }
 
@@ -182,7 +182,7 @@ class CountdownViewPagerFragment : Fragment() {
 // and NOT a FragmentPagerAdapter.
 class DemoCollectionPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
-    var data = CountDownViewModel.getTimeList().value!!
+    var data = CountDownViewModel.getPlayerList().value!!
 
     override fun getCount(): Int = data.size
 

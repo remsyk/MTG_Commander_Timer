@@ -37,18 +37,19 @@ object CountDownViewModel : ViewModel() {
         }
     }
 
-    fun removePlayer(position: Int) {
+    //remove player during main fragment setup cant let there be less than 2 players
+    fun removePlayerFromSetup(position: Int) {
         if (timerList.value!!.size > 2) {
             timerList.value!!.removeAt(position)
             timerList.postValue(timerList.value)
         }
     }
 
+
+    //remove player during play when they die from time running our being killed
     fun removePlayerDied(position: Int) {
-        if (timerList.value!!.size >= 2) {
-            timerList.value!!.removeAt(position)
-            timerList.postValue(timerList.value)
-        }
+        timerList.value!!.removeAt(position)
+        timerList.postValue(timerList.value)
     }
 
     fun getPLayerName(position: Int): String {
@@ -56,27 +57,23 @@ object CountDownViewModel : ViewModel() {
     }
 
 
+    //remove last player during setup
     @ExperimentalStdlibApi
-    fun removeLastPlayer() {
+    fun removeLastPlayerSetup() {
         if (timerList.value!!.size > 2) {
             timerList.value!!.removeLast()
             timerList.postValue(timerList.value)
         }
     }
 
+    //remove last player during play when they die from time running our being killed
     @ExperimentalStdlibApi
-    fun removeLastPlayer2() {
+    fun removeLastPlayerDied() {
         timerList.value!!.removeLast()
         timerList.postValue(timerList.value)
-
     }
 
-    fun removeRangePlayer(position: Int) {
-        timerList.value = timerList.value!!.subList(0, position)
-        timerList.postValue(timerList.value)
-    }
-
-    fun getTimeList(): MutableLiveData<MutableList<TimerModel>> = timerList
+    fun getPlayerList(): MutableLiveData<MutableList<TimerModel>> = timerList
 
     fun removeMinute(position: Int) {
         if ((timerList.value?.get(position)?.countdownTime!!) >= 60000.00) {
@@ -92,6 +89,7 @@ object CountDownViewModel : ViewModel() {
 
     }
 
+    //remove all players from game and resest the game back to 2 players
     fun clearPlayers() {
         timerList.value!!.clear()
         timerList.postValue(timerList.value)
@@ -119,7 +117,7 @@ object CountDownViewModel : ViewModel() {
 
                 override fun onFinish() {
                     "Timer onFishing Called".log()
-                    removePlayer(position)
+                    removePlayerFromSetup(position)
                 }
             }
         }
