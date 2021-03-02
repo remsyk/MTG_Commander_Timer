@@ -35,32 +35,11 @@ class PauseDialog : DialogFragment() {
                 dialog.dismiss()
             }
 
-
             .create()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-
-        getValue?.let {
-            it(resetPreesed)
-            if(resetPreesed) {
-
-                CountDownViewModel.clearPlayers()
-
-                MainActivity.mainTime = 0
-
-                activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
-                activity!!.supportFragmentManager!!.popBackStack()
-
-            }else{
-
-                CountDownViewModel.setTimer(MainActivity.currentFragNum)
-                CountDownViewModel.startTimer()
-
-            }
-        }
-
-
+        getValue?.let { it(resetPreesed) }
         super.onDismiss(dialog)
     }
 

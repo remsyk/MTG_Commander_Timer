@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.example.mtg_commander_timer.*
 import com.example.mtg_commander_timer.activities.MainActivity
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.removeFrag
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.soundOn
 import com.example.mtg_commander_timer.models.CountDownViewModel
 import com.example.mtg_commander_timer.models.TimerModel
@@ -48,7 +49,6 @@ class CountdownViewPagerFragment : Fragment() {
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = demoCollectionPagerAdapter
 
-        //mediaPlayer =  MediaPlayer.create(requireContext(), R.raw.countdown)
 
         mediaPlayer = MediaPlayer.create(requireContext(), R.raw.countdown)
 
@@ -57,62 +57,38 @@ class CountdownViewPagerFragment : Fragment() {
             demoCollectionPagerAdapter.updateData(it)
 
 
-            /*if (CountDownViewModel.getTimeList().value!!.size.equals(0) && soundOn) {
-
-                var mediaPlayer2 = MediaPlayer.create(requireContext(), R.raw.player_won)
-                mediaPlayer2.start()
-
-                Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(MainActivity.currentFragNum)} Died", Toast.LENGTH_LONG).show()
-
-
-                Toast.makeText(requireContext(), "Player Won", Toast.LENGTH_LONG).show()
-
-            }*/
-
                 //start audio when user has less than 1min left and sound is on and the mediaplayer isn't already playing
             if (CountDownViewModel.getProgress(MainActivity.currentFragNum) < 60000 && soundOn && isTheMediaPlayerNotPlaying) {
 
-                //TODO fix this, it gets called to many times
                 mediaPlayer.start()
                 isTheMediaPlayerNotPlaying = false
 
             }
 
 
-            //CountDownViewModel.getProgress(MainActivity.currentFragNum).log()
-
             //If the timer goes to 0 which wont happen so its set to 1000, then begin the remove player protocol
-            if (CountDownViewModel.getProgress(MainActivity.currentFragNum) <= 1000) {
+            if (removeFrag) {
 
+                 Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(MainActivity.currentFragNum)} Died", Toast.LENGTH_LONG).show()
 
                 //if there is only player left then the game ends
                 if(CountDownViewModel.getPlayerList().value!!.size == 1){
 
+                    Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(0)} Won", Toast.LENGTH_LONG).show()
+
                     activity!!.supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
                     activity!!.supportFragmentManager!!.popBackStack()
-
-                    Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(0)} Won", Toast.LENGTH_LONG).show()
 
 
                     CountDownViewModel.clearPlayers()
                     MainActivity.mainTime = 0 //reset main time
 
-                }else{
-
-                    Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(MainActivity.currentFragNum)} Died", Toast.LENGTH_LONG).show()
-
                 }
 
-                CountDownViewModel.stopTimer()
-                CountDownViewModel.removePlayerDied(MainActivity.currentFragNum)
-
-                //viewPager.currentItem = MainActivity.currentFragNum + 1
-
+                removeFrag = false
             }
 
         })
-
-
 
         viewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             var currentPage: Int = 0
@@ -163,12 +139,6 @@ class CountdownViewPagerFragment : Fragment() {
                     mediaPlayer.start()
                 }
 
-
-                //TODO not sure what this does, or when it gets called
-                if (MainActivity.removeFrag) {
-                    CountDownViewModel.removePlayerFromSetup(position - 1)
-
-                }
 
                 CountDownViewModel.stopTimer()
                 CountDownViewModel.setTimer(position)

@@ -4,6 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mtg_commander_timer.activities.MainActivity.Companion.mainTime
+import com.example.mtg_commander_timer.activities.MainActivity.Companion.removeFrag
 import com.example.mtg_commander_timer.log
 import java.lang.IndexOutOfBoundsException
 
@@ -114,7 +115,9 @@ object CountDownViewModel : ViewModel() {
 
                 override fun onFinish() {
                     "Timer onFishing Called".log()
-                    //removePlayerDied(position)
+                    timer.cancel()
+                    removeFrag = true
+                    removePlayerDied(position)
                 }
             }
         }
@@ -127,7 +130,6 @@ object CountDownViewModel : ViewModel() {
             "Timer Started: ${timer.hashCode()}".log()
         }
     }
-
 
     fun stopTimer() {
         timerRunning = false

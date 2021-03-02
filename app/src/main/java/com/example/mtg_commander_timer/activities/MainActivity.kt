@@ -45,6 +45,10 @@ import com.google.android.gms.ads.MobileAds
 //TODO fix sound issue media player
 //DONE player timer runs out and then reset the game and then set time to below 1 min and restart the game, no player lost is announced and game doesnt reset
 //TODO check implementation of the remove player functionality for method calls, make sure the right ones are being called
+//TODO fix when user adds time to player and progress bar isnt representative of that change
+//TODO need to add multiple media players for each player
+//DONE do not allow user to see pause button when in setup fragment because they can pop the fragment off the stack
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -71,12 +75,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        pauseIconEnabled(false)
+        super.onResume()
+    }
+
     //needs  to stop timer and and ensure that when there is only one fragment left exit the app instead of entering a empty activity
     override fun onBackPressed() {
         CountDownViewModel.stopTimer()
         if (supportFragmentManager.backStackEntryCount == 1) {
             finish()
         } else {
+            pauseIconEnabled(false)
             supportFragmentManager.popBackStack()
         }
     }
@@ -139,12 +149,22 @@ class MainActivity : AppCompatActivity() {
                     CountDownViewModel.stopTimer()
                     //Show pause dialog to allow user to reset game and know that game is paused
                     PauseDialog.show(supportFragmentManager).getValue={
-                        if(it){
+                        if(it){//if player tries to reset the game
+                            CountDownViewModel.clearPlayers()
+
+                            MainActivity.mainTime = 0
+
+                            supportFragmentManager!!.beginTransaction().remove(CountdownViewPagerFragment()).commit()
+                            supportFragmentManager!!.popBackStack()
+
                             if(mInterstitialAd.isLoaded){
                                 mInterstitialAd.show()
                             }else{
                                 "ad failed to load".log()
                             }
+                        }else{ //or the player is just dismissing the pause dialog
+                            CountDownViewModel.setTimer(MainActivity.currentFragNum)
+                            CountDownViewModel.startTimer()
                         }
 
                     }

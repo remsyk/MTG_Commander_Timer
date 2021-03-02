@@ -60,26 +60,20 @@ class CountdownFragment : Fragment() {
 
         CountDownViewModel.getPlayerList().observe(activity!!, Observer<MutableList<TimerModel>> {
 
-
+            //it the text we are trying to populate on the countdown fragment
             if (textview_name != null) {
                 try {
-                    textview_name.text = it[currentFragNum].name
-                    textview_countdown.text = it[currentFragNum].countdownTime.millisToMinString()
+
+                    textview_name.text = it[currentFragNum].name //set the name of player being viewd
+                    textview_countdown.text = it[currentFragNum].countdownTime.millisToMinString() //set the time for player being views
 
                     //have progress bar element decrement
                     progressBar.progress = ((((CountDownViewModel.getProgress(currentFragNum)).toDouble() / mainTime.toDouble()) * 1000)).toInt()
 
 
-                    //TODO fix this, it will never get called, cant equal 0, it will need to be less than 1000 or something like
-                    if (CountDownViewModel.getProgress(currentFragNum).equals(0)) {
-                        CountDownViewModel.stopTimer()
-                        CountDownViewModel.removePlayerDied(currentFragNum)
-
-                    }
-
-                    //The IndexOutOfBoundsException will be thrown by CountDownFragmetViewPager when a player is removed, this will catch that exception and show that player has died
+                    //The IndexOutOfBoundsException will be thrown by CountDownFragmetViewPager when a player is removed
                 } catch (e: IndexOutOfBoundsException) {
-                    Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(currentFragNum)} Died", Toast.LENGTH_LONG).show()
+                   Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(currentFragNum)} Died", Toast.LENGTH_LONG).show()
 
                 }
 
