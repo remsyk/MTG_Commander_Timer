@@ -73,7 +73,6 @@ class CountdownFragment : Fragment() {
 
                     //The IndexOutOfBoundsException will be thrown by CountDownFragmetViewPager when a player is removed
                 } catch (e: IndexOutOfBoundsException) {
-                   Toast.makeText(requireContext(), "${CountDownViewModel.getPLayerName(currentFragNum)} Died", Toast.LENGTH_LONG).show()
 
                 }
 
